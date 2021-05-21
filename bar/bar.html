@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+<head>
+ 	<script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+ 	<script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
+  	<script>
+		var context
+		window.onload = function() {
+		  context = new AudioContext();
+		}
+
+		AFRAME.registerComponent('box-sound', {
+			schema: {
+				sound_id: {type: 'string'},
+				msound_id: {type: 'string'}
+			},
+			init: function () {
+				let sound_id = this.data.sound_id
+				let lastIndex = -1;
+				let sounds = []
+				if(this.data.msound_id){
+					sounds = this.data.msound_id.split(',').map(sound_id => sound_id.trim())
+				}
+				this.el.addEventListener('click', function (evt) {
+					context.resume().then(() => {
+						console.log('Playback resumed successfully');
+						if(sounds.length){
+							lastIndex = (lastIndex + 1) % sounds.length
+							sound_id = sounds[lastIndex]	
+						}
+						this.setAttribute('sound', 'src', sound_id);
+						this.setAttribute('sound', 'autoplay', 'true');
+					});
+				});
+			}
+		});
+	</script>
+</head>
+<body>
+	<a-scene cursor="rayOrigin: mouse">
+		<!--Assets management system-->
+		<a-assets>
+			<img id="floor-3" src="bar_assets/images/floor-3-3.png">
+			<img id="dance-floor-1" src="bar_assets/images/dance-floor-1.jpg">
+			<img id="wall-1" src="bar_assets/images/wall-2.png">
+			<img id="wall-3" src="bar_assets/images/wall-3.jpg">
+			<img id="wall-5" src="bar_assets/images/wall-5.jpg">
+			<img id="bar-bg-1" src="bar_assets/images/bar-bg-1.png">
+			<img id="bar-bg-2" src="bar_assets/images/bar-bg-2.jpg">
+
+			<!--Pub Counter-->
+			<a-asset-item id="pub_counter" src="bar_assets/assets/pub_counter/scene.gltf"></a-asset-item>
+
+			<!--Wall designs-->
+			<img id="wall-design-1" src="bar_assets/images/wall-design-1.jpg">
+			<img id="wall-design-2" src="bar_assets/images/wall-design-2.jpg">
+			<img id="wall-design-3" src="bar_assets/images/wall-design-3.jpg">
+			
+			<!--Sofa beside the gate-->
+			<a-asset-item id="sofa-1-o" src="bar_assets/assets/sofa-3/sofa.obj"></a-asset-item>
+			<a-asset-item id="sofa-1-m" src="bar_assets/assets/sofa-3/sofa.mtl"></a-asset-item>
+
+			<!--Chair 1-->
+			<a-asset-item id="chair-1-o" src="bar_assets/assets/chair-1/chair-1.obj"></a-asset-item>
+			<a-asset-item id="chair-1-m" src="bar_assets/assets/chair-1/chair-1.mtl"></a-asset-item>
+
+			<!--Table-1-->
+			<a-asset-item id="table-1-o" src="bar_assets/assets/table-1/table-1.obj"></a-asset-item>
+			<a-asset-item id="table-1-m" src="bar_assets/assets/table-1/table-1.mtl"></a-asset-item>
+
+			<audio id="sound" src="bar_assets/sound/sound.mp3" preload="auto"></audio>
+			<audio id="clinking_glass" src="bar_assets/sound/clinking_glass.mp3" preload="auto"></audio>
+			<audio id="leaves" src="bar_assets/sound/leaves.mp3" preload="auto"></audio>
+			<audio id="pool-table-sound" src="bar_assets/sound/pool-table.mp3" preload="auto"></audio>
+			
+			<!--Flowers-1-->
+			<a-asset-item id="flowers-1" src="bar_assets/assets/flowers-1/scene.gltf"></a-asset-item>
+
+			<!--Flowers-2-->
+			<a-asset-item id="flowers-2" src="bar_assets/assets/flowers-2/scene.gltf"></a-asset-item>
+
+			<!--Cafe table-1-->
+			<a-asset-item id="cafe-table-1-o" src="bar_assets/assets/cafe-table-1/cafe-table-1.obj"></a-asset-item>
+			<a-asset-item id="cafe-table-1-m" src="bar_assets/assets/cafe-table-1/cafe-table-1.mtl"></a-asset-item>
+
+			<!--beer-1-->
+			<a-asset-item id="beer-1-o" src="bar_assets/assets/beer-1/beer-1.obj"></a-asset-item>
+			<a-asset-item id="beer-1-m" src="bar_assets/assets/beer-1/beer-1.mtl"></a-asset-item>
+
+			<!--beer-2-->
+			<a-asset-item id="beer-2-o" src="bar_assets/assets/beer-2/beer-2.obj"></a-asset-item>
+			<a-asset-item id="beer-2-m" src="bar_assets/assets/beer-2/beer-2.mtl"></a-asset-item>
+
+			<!--beer-3-->
+			<a-asset-item id="beer-3-o" src="bar_assets/assets/beer-3/beer-3.obj"></a-asset-item>
+			<a-asset-item id="beer-3-m" src="bar_assets/assets/beer-3/beer-3.mtl"></a-asset-item>
+
+			<!--paint-1-->
+			<a-asset-item id="paint-1-o" src="bar_assets/assets/paint-1/paint-1.obj"></a-asset-item>
+			<a-asset-item id="paint-1-m" src="bar_assets/assets/paint-1/paint-1.mtl"></a-asset-item>
+
+			<!--chandelier-1-->
+			<a-asset-item id="chandelier-1-o" src="bar_assets/assets/chandelier-1/chandelier-1.obj"></a-asset-item>
+			<a-asset-item id="chandelier-1-m" src="bar_assets/assets/chandelier-1/chandelier-1.mtl"></a-asset-item>
+
+			<a-asset-item id="pool-table-o" src="bar_assets/assets/pool-table/pool-table.obj"></a-asset-item>
+			<a-asset-item id="pool-table-m" src="bar_assets/assets/pool-table/pool-table.mtl"></a-asset-item>
+
+			<a-asset-item id="pool-table" src="bar_assets/assets/pool_test/scene.gltf"></a-asset-item>
+		</a-assets>
+
+		<a-entity position="0 1 0" movement-controls="speed: 0.15">
+	      <a-camera position="0 1.7 0" 
+	                user-height="1.6" id="cam" wasd-controls="acceleration: 20"
+	                camera="" rotation="" look-controls="" data-aframe-inspector-original-camera="">
+	      </a-camera>
+	    </a-entity>
+		
+		<!--Floor-->
+		<a-plane 
+			box-sound="sound_id: #sound" sound="loop:true;volume:5"
+			position="0 0 -8"
+			width="16"
+			height="16"
+			material="color: #fff;src: #floor-3;repeat:5 5;
+			normal-map: #floor-3;normal-texture-repeat: 5 5;normal-scale: 1 1 1;" 
+			rotation="-90 0 0"
+			scale="1 1 1"
+		></a-plane>
+
+		<!--Ceiling-->
+		<a-plane 
+			position="0 7 -8"
+			width="16"
+			height="16"
+			material="side:double;color: #fff;src: #wall-5;repeat:5 5;
+			normal-map: #wall-5;normal-texture-repeat: 5 5;normal-scale: 1 1 1;" 
+			rotation="-90 0 0"
+			scale="1 1 1"
+		></a-plane>
+
+		<!--Wall Boundary - Back-->
+		<a-plane 
+			onclick="window.location = '/game_room/index.html'"
+			position="0 3.5 -16.0"
+			width="16" height="7"
+			material="side:double;color: #fff;src: #bar-bg-1;repeat:1 1;
+			normal-map: #bar-bg-1;normal-texture-repeat: 1 1;normal-scale: 1 1 1;" 
+			scale="1 1 1"
+		></a-plane>
+
+		<!--Wall Boundary - Front-->
+		<a-plane 
+			position="0 3.5 0"
+			width="16" height="7"
+			material="side:double;color: #fff;src: #bar-bg-2;repeat:1 1;
+			normal-map: #bar-bg-2;normal-texture-repeat: 1 1;normal-scale: 1 1 1;" 
+			scale="1 1 1"
+		></a-plane>
+
+		<!--Wall Boundary - Left-->
+		<a-plane 
+			position="-8 3.5 -8"
+			rotation="0 90 0"
+			width="16" height="7"
+			material="side:double;color: #fff;src: #wall-3;repeat:1 1;
+			normal-map: #wall-3;normal-texture-repeat: 1 1;normal-scale: 1 1 1;" 
+			scale="1 1 1"
+		></a-plane>
+
+		<!--Wall Boundary - Right-->
+		<a-plane 
+			position="8 3.5 -8"
+			rotation="0 90 0"
+			width="16" height="7"
+			material="side:double;color: #fff;src: #wall-3;repeat:1 1;
+			normal-map: #wall-3;normal-texture-repeat: 1 1;normal-scale: 1 1 1;" 
+			scale="1 1 1"
+		></a-plane>
+
+		<!--Wall design - 1 -->
+		<a-image position="-7.92964 2.54607 -10.05622" src="#wall-design-1" scale="1 1 1.01" material="" geometry="width: 1.5; height: 2" rotation="0 90 0"></a-image>
+
+		<!--Wall design - 2 -->
+		<a-image position="-7.99 2.57155 -5.90611" src="#wall-design-2" scale="1 1 1.01" material="" geometry="width: 1.25; height: 2" rotation="0 90 0"></a-image>
+
+		<!--Wall design - 3 -->
+		<a-image position="-7.99 2.50907 -14.21369" src="#wall-design-3" scale="1 1 1.01" material="" geometry="width: 1.5; height: 2" rotation="0 90 0"></a-image>
+
+		
+
+		<a-entity obj-model="obj: #chair-1-o; mtl: #chair-1-m" rotation="-90 180 0" scale="0.02 0.02 0.02" position="-7 0 -1"></a-entity>
+		<a-entity obj-model="obj: #chair-1-o; mtl: #chair-1-m" rotation="-90 180 0" scale="0.02 0.02 0.02" position="-7 0 -3"></a-entity>
+		<a-entity obj-model="obj: #table-1-o; mtl: #table-1-m" rotation="-90 180 0" scale="0.015 0.015 0.015" position="-5 0 -2.1"></a-entity>
+
+		<a-entity obj-model="obj: #chair-1-o; mtl: #chair-1-m" rotation="-90 0 0" scale="0.02 0.02 0.02" position="7 0 -1.5"></a-entity>
+		<a-entity obj-model="obj: #chair-1-o; mtl: #chair-1-m" rotation="-90 0 0" scale="0.02 0.02 0.02" position="7 0 -3.5"></a-entity>
+		<a-entity obj-model="obj: #table-1-o; mtl: #table-1-m" rotation="-90 0 0" scale="0.015 0.015 0.015" position="5 0 -2.1"></a-entity>
+
+		
+		<!-- <a-entity obj-model="obj: #pool-table-o; mtl: #pool-table-m" rotation="-90 90 0" scale="0.02 0.01 0.015" position="-5 0 -11.5"></a-entity> -->
+		<a-entity box-sound="sound_id: #pool-table-sound" sound="loop:false;volume:5" gltf-model="#pool-table" rotation="0 0 0" scale="0.04 0.04 0.02" position="-5 0.5 -11.5" animation-mixer></a-entity>
+
+		<a-entity id="pub_counter_model" gltf-model="#pub_counter" rotation="0 -90 0" scale="1.5 1.5 1" position="0 0 -13"></a-entity>
+
+		<a-entity box-sound="sound_id: #leaves" sound="loop:false;volume:5" id="flowers-1" gltf-model="#flowers-1" scale="0.05 0.05 0.05" position="6 0 -13"></a-entity>
+		<a-entity box-sound="sound_id: #leaves" sound="loop:false;volume:5" id="flowers-2" gltf-model="#flowers-2" scale="0.02 0.02 0.02" position="4 2 -15.5"></a-entity>
+		
+		<!--Cafee type table chairs-->
+		<a-entity obj-model="obj: #cafe-table-1-o; mtl: #cafe-table-1-m" rotation="0 90 0" scale="2 3.2 2" position="-4 0.6 -5"></a-entity>
+		<a-entity obj-model="obj: #cafe-table-1-o; mtl: #cafe-table-1-m" rotation="0 90 0" scale="2 3.2 2" position="0 0.6 -5"></a-entity>
+		<a-entity obj-model="obj: #cafe-table-1-o; mtl: #cafe-table-1-m" rotation="0 90 0" scale="2 3.2 2" position="4 0.6 -5"></a-entity>
+		<a-entity obj-model="obj: #cafe-table-1-o; mtl: #cafe-table-1-m" rotation="0 90 0" scale="2 3.2 2" position="-4 0.6 -7"></a-entity>
+		<a-entity obj-model="obj: #cafe-table-1-o; mtl: #cafe-table-1-m" rotation="0 90 0" scale="2 3.2 2" position="0 0.6 -7"></a-entity>
+		<a-entity obj-model="obj: #cafe-table-1-o; mtl: #cafe-table-1-m" rotation="0 90 0" scale="2 3.2 2" position="4 0.6 -7"></a-entity>
+
+		<!--Painting 1-->
+		<a-entity obj-model="obj: #paint-1-o; mtl: #paint-1-m" rotation="0 0 0" scale="1 2 1" position="-7.9 3.0782 -1.98214"></a-entity>
+
+		<!--Chandelier 1-->
+		<a-entity obj-model="obj: #chandelier-1-o; mtl: #chandelier-1-m" rotation="0 0 0" scale="0.09 0.09 0.09" position="0 4.9 -8"></a-entity>
+
+		<!--Set of 3 beers-->
+		<a-entity box-sound="sound_id: #clinking_glass" sound="loop:false;volume:5" obj-model="obj: #beer-1-o; mtl: #beer-1-m" rotation="-90 0 0" scale="0.02 0.02 0.02" position="-5 1.2 -3.1"></a-entity>
+		<a-entity box-sound="sound_id: #clinking_glass" sound="loop:false;volume:5" obj-model="obj: #beer-1-o; mtl: #beer-1-m" rotation="-90 0 0" scale="0.02 0.02 0.02" position="-5.2 1.2 -3"></a-entity>
+		<a-entity box-sound="sound_id: #clinking_glass" sound="loop:false;volume:5" obj-model="obj: #beer-1-o; mtl: #beer-1-m" rotation="-90 0 0" scale="0.02 0.02 0.02" position="-5 1.2 -2.9"></a-entity>
+
+		<a-entity obj-model="obj: #beer-2-o; mtl: #beer-2-m" rotation="0 0 0" scale="0.02 0.02 0.02" position="-5 1.2 -2.1"></a-entity>
+		<a-entity obj-model="obj: #beer-3-o; mtl: #beer-3-m" rotation="-90 0 0" scale="0.03 0.03 0.03" position="-5 1.2 -1.5"></a-entity>
+
+		<!--Set of 3 beers-->
+		<a-entity box-sound="sound_id: #clinking_glass" sound="loop:false;volume:5" obj-model="obj: #beer-1-o; mtl: #beer-1-m" rotation="-90 0 0" scale="0.02 0.02 0.02" position="-5 1.2 -1.1"></a-entity>
+		<a-entity box-sound="sound_id: #clinking_glass" sound="loop:false;volume:5" obj-model="obj: #beer-1-o; mtl: #beer-1-m" rotation="-90 0 0" scale="0.02 0.02 0.02" position="-5.2 1.2 -1"></a-entity>
+		<a-entity box-sound="sound_id: #clinking_glass" sound="loop:false;volume:5" obj-model="obj: #beer-1-o; mtl: #beer-1-m" rotation="-90 0 0" scale="0.02 0.02 0.02" position="-5 1.2 -0.9"></a-entity>
+
+		<!--Light-->
+      	<a-light type="ambient" color="BBB"></a-light>
+      	<a-light type="point" color="#00FF00" position="0 4.5 -8" castshadow="true" light="color: #f9e353; intensity: 10; distance: 15" animation="property: light.intensity; from:0; to: 10; repeat: indefinite; dur: 3000; easing: linear;loop: true; dir:alternate"></a-light>
+		<a-light type="spot" target="#pub_counter_model" intensity="10" color="#2d0052" angle="10" position="-0.472 7.309 -36.786" castShadow="true"></a-light>
+		
+	</a-scene>
+</body>
+</html>

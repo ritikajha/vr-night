@@ -1,0 +1,147 @@
+<html>
+
+<head>
+    <title>Welcome to Gaming Zone</title>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
+
+</head>
+
+<body>
+    <a-scene cursor="rayOrigin: mouse">
+        <!-- Assets management  -->
+        <a-assets>
+
+            <img src="gameroom_assets/GameEmpire.png" id="logo">
+            <img src="gameroom_assets/kushal.png" id="kushal">
+            <img src="gameroom_assets/me.png" id="me">
+
+
+            <img src="gameroom_assets/image/img1.jpg" id="img1">
+            <img src="gameroom_assets/image/img2.jpg" id="img2">
+            <img src="gameroom_assets/image/img3.jfif" id="img3">
+            <img src="gameroom_assets/image/img4.jpg" id="img4">
+            <img src="gameroom_assets/image/img5.jpg" id="img5">
+            <img src="gameroom_assets/image/img6.jpg" id="img6">
+            <img src="gameroom_assets/image/img7.jpg" id="img7">
+            <img src="gameroom_assets/image/img8.jfif" id="img8">
+
+            <a-asset-item id="surrounding" src="gameroom_assets/room/scene.gltf"></a-asset-item>
+            <a-asset-item id="game1" src="gameroom_assets/game1/scene.gltf"></a-asset-item>
+            <a-asset-item id="game2" src="gameroom_assets/game2/scene.gltf"></a-asset-item>
+            <a-asset-item id="game3" src="gameroom_assets/game3/scene.gltf"></a-asset-item>
+            <a-asset-item id="game4" src="gameroom_assets/game4/scene.gltf"></a-asset-item>
+            <a-asset-item id="game5" src="gameroom_assets/game5/scene.gltf"></a-asset-item>
+            <a-asset-item id="game6" src="gameroom_assets/game6/scene.gltf"></a-asset-item>
+
+            <a-asset-item id="tv" src="gameroom_assets/tv/scene.gltf"></a-asset-item>
+            <a-asset-item id="table" src="gameroom_assets/table/scene.gltf"></a-asset-item>
+
+            <video id="a" autoplay loop="true" src="gameroom_assets/a.mp4"></video>
+        </a-assets>
+
+        
+
+        <a-entity gltf-model="#surrounding" position="0 0 0"></a-entity>
+        <a-entity gltf-model="#game3" animation-mixer="" id="gameAnim5" scale="0.62 0.52 0.44" rotation="0.02 -45 0"
+            position="5.11524 0.085 -5.17146">
+        </a-entity>
+        <a-entity gltf-model="#game3" animation-mixer="" id="gameAnim3" scale="0.62 0.52 0.44" rotation="0.02 45 0"
+            position="-5.11524 0.085 -5.17146">
+        </a-entity>
+        <a-entity gltf-model="#game2" id="gameAnim22" rotation="0 108.53 0" position="6.19738 0.13632 -1.59351"
+            scale="-0.31 0.26 0.34">
+        </a-entity>
+        <a-entity gltf-model="#game2" id="gameAnim2" rotation="0 -108.53 0" position="-6.19738 0.13632 -1.59351"
+            scale="-0.31 0.26 0.34"></a-entity>
+        <a-entity gltf-model="#game1" id="gameAnim1" scale="0.0015 0.001 0.0015" rotation="0 105 0"
+            position="-5.78461 -0.16842 1.60279"></a-entity>
+        <a-entity gltf-model="#game4" id="gameAnim6" position="0 0.737 0" scale="0.003 0.002 0.003" animation-mixer="" rotation="0 -90 0">
+        </a-entity>
+
+        <a-entity gltf-model="#tv" rotation="0 100 0" scale="1 0.83 0.83" position="-1.47 3.4 -5.601"></a-entity>
+        <a-entity gltf-model="#tv" rotation="0 80 0" scale="1 0.83 0.83" position="1.47 3.4 -5.601"></a-entity>
+        <a-entity gltf-model="#tv" rotation="0 40 0" scale="1 0.83 0.83" position="4.183 3.4 -4.132"></a-entity>
+        <a-entity gltf-model="#tv" rotation="0 125 0" scale="1 0.83 0.83" position="-4.183 3.4 -4.132"></a-entity>
+
+        <a-entity gltf-model="#game6" id="gameAnim4" position="6.05302 1.11728 1.6332" scale="0.01 0.01 0.01">
+        </a-entity>
+        <a-entity gltf-model="#table" position="6.03368 0.1805 1.62619" scale="0.3 0.3 0.3"></a-entity>
+
+        <a-image src="#img1" geometry="width: 2.35; height: 1.54" rotation="0 14.999999999999998 0"
+            position="-2.14874 1.7406 -8.045" material=""></a-image>
+        <a-image src="#img2" geometry="primitive:  plane;  width:  1.43;  height:  1.91" rotation="0 -14 0"
+            position="2.14817 1.80583 -8.1082" material=""></a-image>
+        <a-image src="#img3" geometry="primitive:  plane;  width:  2.31;  height:  1.66" rotation="0 135 0"
+            position="5.902 1.756 -5.937" material=""></a-image>
+        <a-image src="#img4" geometry="primitive:  plane;  width:  1.480;  height:  2" rotation="0 45 0"
+            position="-5.995 1.824 -5.867" material=""></a-image>
+        <a-image src="#img5" geometry="width: 1.48; height: 2" rotation="0 105 0" position="-8.01254 1.81559 2.24433"
+            material=""></a-image>
+        <a-image src="#img6" geometry="width: 2.39; height: 1.59" rotation="0 -105 0" position="8.09887 1.73175 2.14853"
+            material=""></a-image>
+        <a-image src="#img7" geometry="width: 2.39; height: 1.59" rotation="0 75 0" position="-8 1.717 -2.145"
+            material=""></a-image>
+        <a-image src="#img8" geometry="width: 1.4; height: 2" rotation="0 105 0" position="8.10377 1.89461 -2.26231"
+            material=""></a-image>
+
+        <a-image src="#logo" position="-5.73321 4.28591 -1.55654" material="" geometry="height: 0.23" rotation="0 75 0"
+            scale="2.5 2.5 1"></a-image>
+        <a-image src="#logo" position="5.73321 4.28591 -1.55654" material="" geometry="height: 0.23" rotation="0 -75 0"
+            scale="2.5 2.5 1"></a-image>
+
+
+        <!-- Animtaion -->
+        <a-light type="spot" target="#gameAnim1" color="#C40070" angle="15" position="0 3 0" castShadow="true"
+            animation="property: light.intensity; from:1; to: 5; repeat: indefinite; dur: 500; easing: linear;loop: true; dir:alternate">
+        </a-light>
+        <a-light type="spot" target="#gameAnim2" color="#edff14" angle="15" position="0 3 0" castShadow="true"
+            animation="property: light.intensity; from:5; to: 1; repeat: indefinite; dur: 600; easing: linear;loop: true; dir:alternate">
+        </a-light>
+        <a-light type="spot" target="#gameAnim22" color="#00ff00" angle="15" position="0 3 0" castShadow="true"
+            animation="property: light.intensity; from:1; to: 5; repeat: indefinite; dur: 400; easing: linear;loop: true; dir:alternate">
+        </a-light>
+        <a-light type="spot" target="#gameAnim3" color="#14ffff" angle="15" position="0 5.458  1.5 " castShadow="true"
+            animation="property: light.intensity; from:5; to: 1; repeat: indefinite; dur: 500; easing: linear;loop: true; dir:alternate">
+        </a-light>
+        <a-light type="spot" target="#gameAnim4" color="#c600eb" angle="15" position="0 3 0" castShadow="true"
+            animation="property: light.intensity; from:1; to: 5; repeat: indefinite; dur: 700; easing: linear;loop: true; dir:alternate">
+        </a-light>
+        <a-light type="spot" target="#gameAnim5" color="#ffff00" angle="15" position="0 3 0" castShadow="true"
+            animation="property: light.intensity; from:1; to: 5; repeat: indefinite; dur: 500; easing: linear;loop: true; dir:alternate">
+        </a-light>
+        <a-light type="spot" target="#gameAnim6" color="#ffcff1" angle="50" position="0 3 0" castShadow="true"
+            animation="property: light.intensity; from:5; to: 5; repeat: indefinite; dur: 600; easing: linear;loop: true; dir:alternate">
+        </a-light>
+
+
+        <!-- Video -->
+
+        <a-video src="#a" width="16" height="8" position="-1.42944 4.10447 -5.437" material=""
+            geometry="width: 14.62; height: 8.5" scale="0.134 0.114 1" rotation="0 10 0"></a-video>
+        <a-video src="#a" width="16" height="8" position="-4.03748 4.11284 -3.994" material=""
+            geometry="width: 14.62; height: 8.5" scale="0.134 0.114 1" rotation="0 36 0"></a-video>
+        <a-video src="#a" width="16" height="8" position="1.450 4.10447 -5.437" material=""
+            geometry="width: 14.62; height: 8.5" scale="0.134 0.114 1" rotation="0 -10 0"></a-video>
+        <a-video src="#a" width="16" height="8" position="4.10088 4.13394 -4.0299" material=""
+            geometry="width: 14.62; height: 8.5" scale="0.134 0.114 1" rotation="0 -50 0"></a-video>
+
+
+        <a-image src="#kushal" scale="1.5 2.2 1" position="-2.6237 0.759 -4.79702" look-at="#cam" material=""
+            geometry="" rotation="0 10 0">
+        </a-image>
+        <a-image src="#me" scale="3 3 1" position="2.75986 1.13958 -4.08952" look-at="#cam" material="" geometry=""
+            rotation="0 -29 0">
+        </a-image>
+
+        
+        <!-- Camera   -->
+
+        <a-entity position="0 0 0" movement-controls="speed: 0.05; constrainToNavMesh: true">
+            <a-camera id="cam" user-height="1.6" look-controls="pointerLockEnabled: true" wasd-controls="acceleration: 20;
+					 easing: 1000"></a-camera>
+        </a-entity>
+    </a-scene>
+</body>
+
+</html>

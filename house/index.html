@@ -1,0 +1,222 @@
+<html>
+
+<head>
+  <title>VR Night</title>
+  <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
+
+  <!-- sound scripts -->
+  <script>
+    var context
+    window.onload = function () {
+      context = new AudioContext();
+    }
+
+    AFRAME.registerComponent('box-sound', {
+      schema: {
+        sound_id: { type: 'string' },
+        msound_id: { type: 'string' }
+      },
+      init: function () {
+        
+        let sound_id = this.data.sound_id
+        let lastIndex = -1;
+        let sounds = []
+        if (this.data.msound_id) {
+          sounds = this.data.msound_id.split(',').map(sound_id => sound_id.trim())
+        }
+        this.el.addEventListener('click', function (evt) {
+          
+          context.resume().then(() => {
+            console.log('Playback resumed successfully');
+            if (sounds.length) {
+              lastIndex = (lastIndex + 1) % sounds.length
+              sound_id = sounds[lastIndex]
+            }
+            this.setAttribute('sound', 'src', sound_id);
+            this.setAttribute('sound', 'autoplay', 'true');
+          });
+        });
+      }
+    });
+  </script>
+</head>
+
+<body>
+  <a-scene cursor="rayOrigin: mouse" fog="type:linear;color:#DCD0FF;far:2000;near:0;density:0.001">
+   
+    <a-assets>
+
+      <!-- audio assets -->
+      <audio id="base" src="house_assets/base.mp3"></audio>
+      <audio id="haha" src="house_assets/hahaha.mp3"></audio>
+      <audio id="tree" src="house_assets/tree.mp3"></audio>
+      <audio id="bellsound" src="house_assets/bellsound.mp3"></audio>
+      
+      <!-- image assets -->
+      <img id="scene" src="house_assets/sky4.jpeg">
+      <img id="floor" src="house_assets/floor3.png">
+      <img id="welcome" src="house_assets/welcome.png" >
+
+      <!-- 3D-OBJECT assets -->
+      <a-asset-item id="car-1-o" src="house_assets/semicar/Humvee.obj"></a-asset-item>
+      <a-asset-item id="car-1-m" src="house_assets/semicar/Humvee.mtl"></a-asset-item>
+      
+      <!-- GLTF models -->
+     
+      <a-asset-item id="scene3" src="house_assets/victorian_house/scene.gltf"></a-asset-item>
+      <a-asset-item id="lamp2" src="house_assets/hand_painted_lamp/scene.gltf"></a-asset-item>
+      <a-asset-item id="plant" src="house_assets/plants_foliage_study/scene.gltf"></a-asset-item>
+      <a-asset-item id="trees" src="house_assets/oak_trees/scene.gltf"></a-asset-item>
+      <!-- <a-asset-item id="car" src="house_assets/carobj/scene.gltf"></a-asset-item>
+      <a-asset-item id="gate" src="house_assets/gate/scene.gltf"></a-asset-item> -->
+      <a-asset-item id="bell" src="house_assets/bell/scene.gltf"></a-asset-item>
+      <a-asset-item id="furniture" src="house_assets/furniture/scene.gltf"></a-asset-item>
+      <a-asset-item id="furniture2" src="house_assets/furniture2/scene.gltf"></a-asset-item>
+      <a-asset-item id="ghost" src="house_assets/ghost2/scene.gltf"></a-asset-item>
+      <a-asset-item id="crow" src="house_assets/crow/scene.gltf"></a-asset-item>
+
+      
+    </a-assets>
+
+    <!-- sky -->
+    <a-sky src="#scene" 
+            position="0 -20 0">
+    </a-sky>
+
+    <!-- house and plane -->
+    <a-entity gltf-model="#scene3">
+    </a-entity>
+
+    <a-plane box-sound="sound_id: #base" sound="volume:25" 
+            position="0 -60.901 0" material="color: #FFFFFF"
+            src="#floor" rotation="-90 0 0" scale="1000 1000 1" geometry="">
+    </a-plane>
+
+   <!-- camera a-entity -->
+    <a-entity position="-3.24554 0.97013 17.8918" movement-controls="speed: 0.15">
+      <a-camera position="4.281976309039449 0 2.9450029925516157" 
+                user-height="1.6" id="cam" wasd-controls="acceleration: 20"
+                camera="" rotation="" look-controls="" data-aframe-inspector-original-camera="">
+      </a-camera>
+    </a-entity>
+
+    <!-- ambient light -->
+    <a-light type="ambient" color="BBB"></a-light>
+    
+    <!-- spot_light -->
+    <a-light type="spot" target="#my" color="#C40070"
+             angle="60" position="0 3 1" castShadow="true">
+    </a-light>
+
+    <!-- SPOT LIGHTS 2 ALTERNATE -->
+    <a-light type="point" color="#FF00FF" intensity="10" distance="10" position="0 2 0"
+            animation="property: light.intensity; from:10; to: 0; repeat: indefinite; dur: 500; easing: linear;loop: true; dir:alternate"
+             castShadow="true">
+    </a-light>
+    <a-light type="point" color="#00FF00" intensity="0" distance="10" position="0 2 0"
+            animation="property: light.intensity; from:0; to: 10; repeat: indefinite; dur: 500; easing: linear;loop: true; dir:alternate"
+            castShadow="true">
+    </a-light>
+
+    <!-- lamps -->
+    <a-entity gltf-model="house_assets/hand_painted_lamp/scene.gltf" 
+              scale="" position="-9.69799 -1.47621 9.7">
+    </a-entity>
+
+    <a-entity gltf-model="house_assets/hand_painted_lamp/scene.gltf" 
+              scale="" position="9.69799 -1.47621 -4.79254">
+    </a-entity>
+
+    <a-entity gltf-model="house_assets/hand_painted_lamp/scene.gltf" 
+              scale="" position="9.69799 -1.47621 0.94797">
+    </a-entity>
+
+    <a-entity gltf-model="house_assets/hand_painted_lamp/scene.gltf" 
+              scale="" position="-9.69799 -1.47621 4.91232">
+    </a-entity>
+
+    <a-entity gltf-model="house_assets/hand_painted_lamp/scene.gltf" 
+              scale="" position="-5.69799 -1.47621 9.7">
+    </a-entity>
+
+    <a-entity gltf-model="house_assets/hand_painted_lamp/scene.gltf" 
+              scale="" position="9.69799 -1.47621 9.7">
+    </a-entity>
+
+    <a-entity gltf-model="house_assets/hand_painted_lamp/scene.gltf" 
+              scale="" position="-1.36 -1.476 9.7">
+    </a-entity>
+
+    <a-entity gltf-model="house_assets/hand_painted_lamp/scene.gltf" 
+              scale="" position="-9.69799 -1.47621 -9.697">
+    </a-entity>
+
+    <a-entity gltf-model="house_assets/hand_painted_lamp/scene.gltf" 
+              scale="" position="-5.60107 -1.47621 -9.697">
+    </a-entity>
+
+    <a-entity gltf-model="house_assets/hand_painted_lamp/scene.gltf" 
+              scale="" position="-0.93411 -1.47621 -9.697">
+    </a-entity>
+
+    <a-entity gltf-model="house_assets/hand_painted_lamp/scene.gltf" 
+              scale="" position="4.88571 -1.47621 -9.697">
+    </a-entity>
+
+    <a-entity gltf-model="house_assets/hand_painted_lamp/scene.gltf" 
+              scale="" position="9.69799 -1.47621 -9.697">
+    </a-entity>
+
+    <!-- plants_foliage_study -->
+    <a-entity gltf-model="house_assets/plants_foliage_study/scene.gltf" position="-3.533 -1.144 10.453" scale="0.75 0.75 0.75"></a-entity>
+    <a-entity gltf-model="house_assets/plants_foliage_study/scene.gltf" position="-7.787 -1.144 10.453" scale="0.75 0.75 0.75">
+    </a-entity>
+
+    <!-- furnitures -->
+    <a-entity gltf-model="house_assets/furniture/scene.gltf" position="-2.54741 -1.0766 -0.6485" scale="0.002 0.0015 0.0015" rotation="0 90 0">
+    </a-entity>
+    <a-entity gltf-model="house_assets/furniture2/scene.gltf" position="6.04274 -0.80507 0.59628" scale="1 1.2 0.8" rotation="0 90 0">
+    </a-entity>
+
+    <!-- oak trees -->
+    <a-entity gltf-model="house_assets/oak_trees/scene.gltf" position="17.94562 -2.077 -3.71423" 
+              box-sound="sound_id: #tree" sound="volume:25" position="0 -60.901 0" material="color: #FFFFFF"scale="0.02 0.02 0.02">
+    </a-entity>
+
+    <!-- bell -->
+    <a-entity gltf-model="house_assets/bell/scene.gltf" scale="0.1 0.1 0.1" position="7.83625 -0.53079 10.49146" 
+    box-sound="sound_id: #bellsound" sound="volume: 15; autoplay: true; src: bell.mp3">
+    </a-entity>
+    
+    <!-- car -->
+    <a-entity obj-model="obj: house_assets/semicar/Humvee.obj; mtl: house_assets/semicar/Humvee.mtl" 
+              rotation="" scale="0.015 0.015 0.015" position="-11.88791 -1.38789 8.982">
+    </a-entity>
+
+    <!-- ghost -->
+    <a-entity id="bhu" gltf-model="house_assets/ghost2/scene.gltf" scale="0.01 0.01 0.01" position="-7.846 -8.058 20.626"
+             box-sound="sound_id: #haha" sound="loop: false;volume: 25"
+              animation="property: position; from: -14.442 4.743 4.845; to:-14.442 6.743 4.845; easing:easeInOutQuad; dir:alternate; loop:true; dur:1000;">
+    </a-entity>
+
+    <!-- spot_light_on_ghost -->
+    <a-light type="spot" intensity="10" target="#bhu" color="#FFE033" 
+              angle="10" position="-6.590 -14.038 20.626" castShadow="true">
+    </a-light>
+
+    <!-- welcome -->
+    <a-image src="#welcome" scale="" position="3.97746 1.07753 6.51982" material="" geometry=""  onclick="window.location='/dj_room/index.html'" rotation="0 90 0">
+    </a-image>
+
+    <!-- crow  -->
+    <a-entity id="#crow" gltf-model="house_assets/crow/scene.gltf" position="12.15654 -1.41474 10.44245" scale="0.001 0.002 0.001" animation-mixer=""></a-entity>
+
+
+
+
+
+  </a-scene>
+</body>
+
+</html>

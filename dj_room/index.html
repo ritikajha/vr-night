@@ -1,0 +1,537 @@
+<!doctype html>
+<html>
+
+<head>
+       <title>VR DJ Room</title>
+       <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+       <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
+
+       <script>
+              var context
+              window.onload = function () {
+                     context = new AudioContext();
+              }
+
+              AFRAME.registerComponent('box-sound', {
+                     schema: {
+                            sound_id: { type: 'string' },
+                            msound_id: { type: 'string' }
+                     },
+                     init: function () {
+                            let sound_id = this.data.sound_id
+                            let lastIndex = -1;
+                            let sounds = []
+                            if (this.data.msound_id) {
+                                   sounds = this.data.msound_id.split(',').map(sound_id => sound_id.trim())
+                            }
+                            this.el.addEventListener('click', function (evt) {
+                                   context.resume().then(() => {
+                                          console.log('Playback resumed successfully');
+                                          if (sounds.length) {
+                                                 lastIndex = (lastIndex + 1) % sounds.length
+                                                 sound_id = sounds[lastIndex]
+                                          }
+                                          this.setAttribute('sound', 'src', sound_id);
+                                          this.setAttribute('sound', 'autoplay', 'true');
+                                   });
+                            });
+                     }
+              });
+       </script>
+</head>
+
+<body>
+       <a-scene cursor="rayOrigin: mouse" physics="debug: true" >
+
+              <!-- Asset Management System -->
+              <a-assets>
+                     <audio id="base" src="djroom_assets/Music/DanceTonight.mp3" preload="auto"></audio>
+                     <audio id="song1" src="djroom_assets/Music/Dilliwaali_Girlfriend_1.mp3" preload="auto"></audio>
+                     <audio id="song2" src="djroom_assets/Music/MiGente.mp3" preload="auto"></audio>
+                     <audio id="song3" src="djroom_assets/Music/Marshmello.mp3" preload="auto"></audio>
+
+
+                     <img id="brick" src="djroom_assets/texture/TexturesCom_BrickSmallNew0099_1_seamless_S.jpg">
+                     <img id="brick-NRM" src="djroom_assets/texture/TexturesCom_Bricks_BrownRegular1_1.2x1.2_512_normal.tif">
+                     <img id="roof" src="djroom_assets/texture/RoofingInside.jpg">
+
+                     <!-- Own avatar-->
+                     <img id="me" src="djroom_assets/Pics/akanksha1.png">
+                     <img id="kushal" src="djroom_assets/Pics/kushal.png">
+                     <img id="ritika" src="djroom_assets/Pics/ritika.png">
+                     <img id="rohan" src="djroom_assets/Pics/rohan.png">
+                     <img id="daneshwari" src="djroom_assets/Pics/daneshwari.png">
+                     
+
+
+                     <img id="frame1" src="djroom_assets/image2/img1.jpg">
+                     <img id="frame2" src="djroom_assets/image2/img2.jpg">
+                     <img id="frame3" src="djroom_assets/image2/img3.jpg">
+                     <img id="frame4" src="djroom_assets/image2/img4.jpg">
+                     <img id="frame5" src="djroom_assets/image2/img5.jpg">
+                     <img id="frame6" src="djroom_assets/image2/img6.jpg">
+                     <img id="frame7" src="djroom_assets/image2/img7.jpg">
+                     <img id="frame8" src="djroom_assets/image2/img8.jpg">
+
+                     <!--TV | Sofa | disco ball-->
+                     <a-asset-item id="tv-o" src="djroom_assets/tv/model.obj"></a-asset-item>
+                     <a-asset-item id="tv-m" src="djroom_assets/tv/materials.mtl"></a-asset-item>
+                     <a-asset-item id="sofa-m" src="djroom_assets/Sofa-01/materials.mtl"></a-asset-item>
+                     <a-asset-item id="sofa-o" src="djroom_assets/Sofa-01/model.obj"></a-asset-item>
+                     <!--images-->
+                     <img id="img1" src="djroom_assets/image/img1.jpg">
+                     <img id="img2" src="djroom_assets/image/img2.jpg">
+                     <img id="img4" src="djroom_assets/image/img4.jpg">
+                     <img id="img5" src="djroom_assets/image/img5.jpg">
+                     <img id="img6" src="djroom_assets/image/img6.jpg">
+                     <img id="door" src="djroom_assets/image/door1.jpg">
+
+                     <img id="img_1" src="djroom_assets/image/img_1.jpg">
+                     
+                     <img id="img_6" src="djroom_assets/image/img_6.jpeg">
+                     <img id="floor" src="djroom_assets/image/img_floor.jpg">
+                     <img id="VRnight" src="djroom_assets/image/VRNIGHT.png">
+
+                     <!--Speakers|Dj set| disco ball-->
+                     <a-asset-item id="dj-g" src="djroom_assets/dj/dj_set/scene.gltf"></a-asset-item>
+                     <a-asset-item id="disco-ball-m" src="djroom_assets/disco-ball/Disco%20Ball.mtl"></a-asset-item>
+                     <a-asset-item id="disco-ball-o" src="djroom_assets/disco-ball/Disco%20Ball.obj"></a-asset-item>
+                     <a-asset-item id="woofer-m" src="djroom_assets/woofer/WallDeskSpeakers.mtl"></a-asset-item>
+                     <a-asset-item id="woofer-o" src="djroom_assets/woofer/WallDeskSpeakers.obj"></a-asset-item>
+                     <img id="woofer" src="djroom_assets/woofer/WallDeskSpeakers_BaseColor.png">
+
+                     <!-- <a-asset-item id="girl" src="djroom_assets/girl/scene.gltf"></a-asset-item>
+                     <a-asset-item id="girl2" src="djroom_assets/girl2/scene.gltf"></a-asset-item> -->
+                     <a-asset-item id="mario" src="djroom_assets/mario/scene.gltf"></a-asset-item>
+
+              </a-assets>
+
+              <!--camera-->
+              <a-entity position="0 -1 -4.7" movement-controls="speed: 0.15" rotation="0 -36 0">
+                     <a-camera id="cam" look-controls wasd-controls="acceleration: 20; easing: 1000"></a-camera>
+              </a-entity>
+
+
+              <!-- Brown Box > Brick Room -->
+              <a-box material="color: #FFFFFF;
+                             src: #brick;
+                             repeat: 2 2;
+                             normal-map: #brick-NRM;
+                             normal-texture-repeat: 2 2;
+                             normal-scale: 1 1;
+                             roughness: 0.9" side="double" width="15" height="6" depth="10" position="0 1.5 -9"
+                     scale="-1 1 1">
+
+                     <!---floor| with multiple sound--->
+                     <a-plane material="color:#FFFFFF;
+                                   src:#floor;
+                                   repeat:10 8" width="15" height="10" shader="flat" rotation="-90 0 0"
+                            position="0 -2.9 0"></a-plane>
+
+                     <!---roof--->
+                     <a-plane material="color:#FFFFFF;
+                                   src:#roof;
+                                   repeat:2 2;
+                                   side:double" width="15" height="10" rotation="90 0 0" position="0 2.9 0"></a-plane>
+                     <a-image src="#img_6" rotation="90 0 0" position="0 2.89 0" width="15" height="10"></a-image>
+
+                     <!--transparent background photos-->
+                  <!--   <a-image src="#ritika" scale="0.9 3.23 4" position="0.76101 -1.659 -4.004" look-at="#cam"
+                            height="0.75" rotation="0 10 5" material="" geometry=""></a-image>-->
+                  <a-image  src="#ritika" scale="0.9 3.23 4" position="0.8507 -1.659 -4.79415" look-at="#cam" height="0.75" rotation="0 10 5" material="" geometry=""></a-image>
+                     <a-image src="#me" scale="1.33 3.28 4" position="-0.14631 -1.797 -4.509" look-at="#cam"
+                            height="0.75" rotation="0 0.17 0" material="" geometry=""></a-image>
+                     <a-image src="#rohan" scale="1.37 3.64 4" position="-1.42749 -1.55014 -4.63888" look-at="#cam"
+                            height="0.75" rotation="0 0 10" material="" geometry=""></a-image>
+
+                     <a-image src="#daneshwari" scale="1.09 3.09 4" position="-2.39036 -1.63155 -4.42303" look-at="#cam"
+                            height="0.75" rotation="0 14.999999999999998 0" material="" geometry=""></a-image>
+                     <a-image src="#kushal" scale="0.9 3.45 4" position="-3.28774 -1.65944 -3.96866" look-at="#cam"
+                            height="0.75" rotation="0 20 0" material="" geometry=""></a-image>
+
+                     <!-- Animated girl -->
+                     <!-- <a-entity gltf-model="#girl2" rotation="0 -90 0" scale="0.03 0.03 0.03"
+                            position="4.37731 -2.58844 0.56283" animation-mixer="">
+                     </a-entity>
+                     <a-entity gltf-model="#girl" animation-mixer="" position="4.37435 -2.8652 -1.69771"
+                            scale="0.02 0.015 0.02"></a-entity> -->
+                     <a-entity gltf-model="#mario" animation-mixer="" position="3.81096 -2.87678 -0.07297"
+                            scale="0.15 0.15 0.15" rotation="0 -45 0"></a-entity>
+
+
+                     <!--TV| Right side-->
+                     <a-entity obj-model="obj: #tv-o; mtl: #tv-m" position="-6.4 1.8 -4.4" scale="0.5 0.5 0.5"
+                            rotation="15 30 0 ">
+                     </a-entity>
+
+                     <!--TV| Left side-->
+                     <a-entity obj-model="obj: #tv-o; mtl: #tv-m" position="6.7 1.8 -4.2" scale="0.5 0.5 0.5"
+                            rotation="15 -30 0 ">
+                     </a-entity>
+
+                     <!--wall paper| front and side|img5 place it on plane-->
+                     <a-plane material="color:#FFFFFF;
+                                   src:#img5;                                   
+                                   side:double" width="10" height="6" rotation="0 90 0" position="7.48 0 0"></a-plane>
+
+                     <a-plane material="color:#FFFFFF;
+                                   src:#img5;                                   
+                                   side:double" width="15" height="6" rotation="0 0 0" position="0 0 -4.89"></a-plane>
+
+                     <a-plane material="color:#FFFFFF;
+                                   src:#img6;                                   
+                                   side:double" width="3" height="3" rotation="0 0 0" position="0 0.5 -4.88"></a-plane>
+
+                     <!--images| 3 frames for right side wall-->
+                     <a-image src="#img1" rotation="0 -90 0" position="-7.49 0 0"></a-image>
+                     <a-image src="#img2" rotation="0 -90 0" position="-7.49 0.5 -1.2"></a-image>
+                     <a-image src="#img4" rotation="0 -90 0" position="-7.49 0.5 1.2"></a-image>
+
+                     <a-image src="#VRnight" rotation="0 180 0" position="0.033 1.776 -4.7" scale="4.620 0.790 1">
+                     </a-image>
+
+
+                     <!--frames for door side wall-->
+                     <a-image src="#frame1" rotation="0 180 0" position="-6 0 4.87"></a-image>
+                     <a-image src="#frame3" rotation="0 180 0" position="-4.881 -0.602 4.935"></a-image>
+                     <a-image src="#frame4" rotation="0 180 0" position="-3.635 -1.213 4.87"></a-image>
+
+                     <a-image src="#frame8" rotation="0 180 0" position="5 0.114 4.87"></a-image>
+                     <a-image src="#frame6" rotation="0 180 0" position="6.235 -0.689 4.87"></a-image>
+                     <a-image src="#frame7" rotation="0 180 0" position="3.855 -0.228 4.87"></a-image>
+                     <a-image src="#frame2" rotation="0 180 0" position="5.052 -1.054 4.87"></a-image>
+
+                     <!--door-->
+                     <a-plane material="color:#FFFFFF;
+                                   src:#frame5;                                   
+                                   side:double" width="4" height="3.4" rotation="0 0 0" position="0 -1.2 4.92886">
+                     </a-plane>
+                     <a-plane material="color:#FFFFFF;
+                                   src:#door;                                   
+                                   side:double" width="3.140" height="3.120" rotation="0 0 0" position="0 -1.424 4.892"
+                            onclick="window.location='/dining_room/dining_room.html'"></a-plane>
+
+                     <!--sofa-->
+                     <a-entity obj-model="obj: #sofa-o; mtl: #sofa-m" position=" -5.3 -2.5 -1.5" rotation="0 -90 0"
+                            scale="2 2 2">
+                     </a-entity>
+
+                     <a-entity obj-model="obj: #sofa-o; mtl: #sofa-m" position=" -5.3 -2.5 3" rotation="0 -90 0"
+                            scale="2 2 2">
+                     </a-entity>
+
+                     <!-- Entity| Dj Floor -->
+                     <a-box width="6" height="0.05" depth="6" color="#000000" position="4 -2.86 -0.5">
+
+                            <!--Revolving disco ball-->
+                            <a-entity rotation="0 0 0"
+                                   animation="property: rotation; to: 0 360 0; loop: true; dur: 10000 easing:linear">
+                                   <a-entity obj-model="obj: #disco-ball-o; mtl: #disco-ball-m" position="0 4.2 0"
+                                          scale="0.8 0.8 0.8"></a-entity>
+                            </a-entity>
+                            <!--yellow light just below the disco ball-->
+                            <a-light type="point" color="#f8b927" intensity="1.5" distance="1" position="0 3.2 0">
+                            </a-light>
+
+                            <!-- DJ Floor -->
+
+                            <a-box color="#AA00AA" position="2.5 0.026 -2.5" width="1" height="0.002" depth="1">
+                                   <a-light type="point" color="#f8b927" intensity="1.5" distance="1"
+                                          position="0 0.5 0"></a-light>
+                            </a-box>
+
+                            <!--- 1st column --->
+
+                            <a-box color="#0000AA" position="2.5 0.026 -1.5" width="1" height="0.002" depth="1">
+                                   <a-light type="point" color="#a431f0" intensity="1.5" distance="1"
+                                          position="0 0.5 0"></a-light>
+                            </a-box>
+
+                            <a-box color="#AA00AA" position="2.5 0.026 -0.5" width="1" height="0.002" depth="1">
+                            </a-box>
+
+                            <a-box color="#0000AA" position="2.5 0.026 0.5" width="1" height="0.002" depth="1">
+                                   <a-light type="point" color="#a431f0" intensity="1.5" distance="1"
+                                          position="0 0.5 0"></a-light>
+                            </a-box>
+
+                            <a-box color="#AA00AA" position="2.5 0.026 1.5" width="1" height="0.002" depth="1">
+                                   <a-light type="point" color="#f8b927" intensity="1.5" distance="1"
+                                          position="0 0.5 0"></a-light>
+                            </a-box>
+
+                            <a-box color="#0000AA" position="2.5 0.026 2.5" width="1" height="0.002" depth="1">
+                                   <a-light type="point" color="#a431f0" intensity="1.5" distance="1"
+                                          position="0 0.5 0"></a-light>
+                            </a-box>
+
+                            <!-- 1st column end-->
+
+                            <!-- 2nd column-->
+                            <a-box color="#0000AA" position="1.5 0.026 -2.5" width="1" height="0.002" depth="1">
+                                   <a-light type="point" color="#a431f0" intensity="1.5" distance="1"
+                                          position="0 0.5 0"></a-light>
+                            </a-box>
+
+                            <a-box color="#AA00AA" position="1.5 0.026 -1.5" width="1" height="0.002" depth="1">
+                            </a-box>
+
+                            <a-box color="#0000AA" position="1.5 0.026 -0.5" width="1" height="0.002" depth="1">
+                                   <a-light type="point" color="#a431f0" intensity="1.5" distance="1"
+                                          position="0 0.5 0"></a-light>
+                            </a-box>
+
+                            <a-box color="#AA00AA" position="1.5 0.026 0.5" width="1" height="0.002" depth="1">
+                                   <a-light type="point" color="#f8b927" intensity="1.5" distance="1"
+                                          position="0 0.5 0"></a-light>
+                            </a-box>
+
+                            <a-box color="#0000AA" position="1.5 0.026 1.5" width="1" height="0.002" depth="1">
+                            </a-box>
+
+                            <a-box color="#AA00AA" position="1.5 0.026 2.5" width="1" height="0.002" depth="1">
+                                   <a-light type="point" color="#f8b927" intensity="1.5" distance="1"
+                                          position="0 0.5 0"></a-light>
+                            </a-box>
+
+                            <!--2nd column end-->
+
+                            <!--3rd column -->
+
+                            <a-box color="#AA00AA" position="0.5 0.026 -2.5" width="1" height="0.002" depth="1">
+                            </a-box>
+
+                            <a-box color="#0000AA" position="0.5 0.026 -1.5" width="1" height="0.002" depth="1">
+                            </a-box>
+
+                            <a-box color="#AA00AA" position="0.5 0.026 -0.5" width="1" height="0.002" depth="1">
+                                   <a-light type="point" color="#f8b927" intensity="1.5" distance="1"
+                                          position="0 0.5 0"></a-light>
+                            </a-box>
+
+                            <a-box color="#0000AA" position="0.5 0.026 0.5" width="1" height="0.002" depth="1">
+                            </a-box>
+
+                            <a-box color="#AA00AA" position="0.5 0.026 1.5" width="1" height="0.002" depth="1">
+                                   <a-light type="point" color="#f8b927" intensity="1.5" distance="1"
+                                          position="0 0.5 0"></a-light>
+                            </a-box>
+
+                            <a-box color="#0000AA" position="0.5 0.026 2.5" width="1" height="0.002" depth="1">
+                                   <a-light type="point" color="#a431f0" intensity="1.5" distance="1"
+                                          position="0 0.5 0"></a-light>
+                            </a-box>
+
+                            <!--3rd column end -->
+
+                            <!--4th column -->
+
+                            <a-box color="#0000AA" position="-0.5 0.026 -2.5" width="1" height="0.002" depth="1">
+                            </a-box>
+
+                            <a-box color="#AA00AA" position="-0.5 0.026 -1.5" width="1" height="0.002" depth="1">
+                                   <a-light type="point" color="#f8b927" intensity="1.5" distance="1"
+                                          position="0 0.5 0"></a-light>
+                            </a-box>
+
+                            <a-box color="#0000AA" position="-0.5 0.026 -0.5" width="1" height="0.002" depth="1">
+                                   <a-light type="point" color="#a431f0" intensity="1.5" distance="1"
+                                          position="0 0.5 0"></a-light>
+                            </a-box>
+
+                            <a-box color="#AA00AA" position="-0.5 0.026 0.5" width="1" height="0.002" depth="1">
+                            </a-box>
+
+                            <a-box color="#0000AA" position="-0.5 0.026 1.5" width="1" height="0.002" depth="1">
+                                   <a-light type="point" color="#a431f0" intensity="1.5" distance="1"
+                                          position="0 0.5 0"></a-light>
+                            </a-box>
+
+                            <a-box color="#AA00AA" position="-0.5 0.026 2.5" width="1" height="0.002" depth="1">
+                            </a-box>
+
+                            <!--4th column end -->
+
+                            <!--5th column -->
+                            <a-box color="#AA00AA" position="-1.5 0.026 -2.5" width="1" height="0.002" depth="1">
+                                   <a-light type="point" color="#f8b927" intensity="1.5" distance="1"
+                                          position="0 0.5 0"></a-light>
+                            </a-box>
+                            <a-box color="#0000AA" position="-1.5 0.026 -1.5" width="1" height="0.002" depth="1">
+                                   <a-light type="point" color="#a431f0" intensity="1.5" distance="1"
+                                          position="0 0.5 0"></a-light>
+                            </a-box>
+                            <a-box color="#AA00AA" position="-1.5 0.026 -0.5" width="1" height="0.002" depth="1">
+                            </a-box>
+                            <a-box color="#0000AA" position="-1.5 0.026 0.5" width="1" height="0.002" depth="1">
+                            </a-box>
+                            <a-box color="#AA00AA" position="-1.5 0.026 1.5" width="1" height="0.002" depth="1">
+                                   <a-light type="point" color="#f8b927" intensity="1.5" distance="1"
+                                          position="0 0.5 0"></a-light>
+                            </a-box>
+                            <a-box color="#0000AA" position="-1.5 0.026 2.5" width="1" height="0.002" depth="1">
+                            </a-box>
+                            <!--5th column end -->
+
+                            <!--6th column -->
+                            <a-box color="#0000AA" position="-2.5 0.026 -2.5" width="1" height="0.002" depth="1">
+                                   <a-light type="point" color="#a431f0" intensity="1.5" distance="1"
+                                          position="0 0.5 0"></a-light>
+                            </a-box>
+                            <a-box color="#AA00AA" position="-2.5 0.026 -1.5" width="1" height="0.002" depth="1">
+                            </a-box>
+                            <a-box color="#0000AA" position="-2.5 0.026 -0.5" width="1" height="0.002" depth="1">
+                                   <a-light type="point" color="#a431f0" intensity="1.5" distance="1"
+                                          position="0 0.5 0"></a-light>
+                            </a-box>
+                            <a-box color="#AA00AA" position="-2.5 0.026 0.5" width="1" height="0.002" depth="1">
+                                   <a-light type="point" color="#f8b927" intensity="1.5" distance="1"
+                                          position="0 0.5 0"></a-light>
+                            </a-box>
+                            <a-box color="#0000AA" position="-2.5 0.026 1.5" width="1" height="0.002" depth="1">
+                            </a-box>
+                            <a-box color="#AA00AA" position="-2.5 0.026 2.5" width="1" height="0.002" depth="1">
+                                   <a-light type="point" color="#f8b927" intensity="1.5" distance="1"
+                                          position="0 0.5 0"></a-light>
+                            </a-box>
+
+                            <!--6th column end-->
+                     </a-box>
+
+                     <!--Table for DJ set-->
+
+                     <a-entity position="-2.43741 -0.8 -3.5075" scale="1.5 1.1 1.1">
+                            <a-entity gltf-model="djroom_assets/dj/dj_set/scene.gltf" scale="0.09 0.09 0.09"
+                                   position="0 -0.79 0" rotation=""> </a-entity>
+                            <a-box position="0 -1.5 0" color="#fff" width="1.8" height="2.49" depth="1.3"
+                                   scale="0.8 0.6 0.6" src="#img_1" material="" geometry="" box-sound="msound_id: #base,#song1,#song2,#song3"
+                            sound="loop:false;volume:10"></a-box>
+                     </a-entity>
+                     <a-entity position="-0.27225 -0.8 -3.48801" scale="1.5 1.1 1.1">
+                            <a-entity gltf-model="djroom_assets/dj/dj_set/scene.gltf" scale="0.09 0.09 0.09"
+                                   position="0 -0.79 0" rotation=""> </a-entity>
+                            <a-box position="0 -1.5 0" color="#fff" width="1.8" height="2.49" depth="1.3"
+                                   scale="0.8 0.6 0.6" src="#img_1" material="" geometry=""></a-box>
+                     </a-entity>
+
+                     <a-light type="point" color="#fff" intensity="1" distance="3" position="-0.78 -1.9 -2.8"></a-light>
+
+                     <!--Speaker decoraction-->
+                     <a-light type="point" color="#a431f0" intensity="9" distance="2" position="6.7 -0.8 -3.7">
+                     </a-light>
+
+                     <a-entity obj-model="obj: #woofer-o; mtl: #woofer-m " position="6.7 -2.8 -4.5"
+                            scale="0.15 0.15 0.15" side="double">
+
+                     </a-entity>
+
+                     <a-plane material="color:#FFFFFF;
+                                   src:#woofer;                                   
+                                   side:double" width="2" height="2" rotation="0 0 0" position="5 -2 -4.87"></a-plane>
+
+                     <a-plane material="color:#FFFFFF;
+                                   src:#woofer;                                   
+                                   side:double" width="2" height="2" rotation="0 0 0" position="3 -2 -4.87"></a-plane>
+
+                     <!--Lights environment setup-->
+                     <!-- custom Light | Ambient -->
+                     <a-entity light="type: ambient;
+                             intensity: 0.2">
+                     </a-entity>
+                     <a-entity light="type: directional;
+                             intensity: 0.2" position="-0.5 1 1">
+                     </a-entity>
+
+                     <!-- SPOT LIGHTS 2 ALTERNATE -->
+                     <a-light type="point" color="#FF00FF" intensity="1" distance="10" position="0 2 1.5"
+                            animation="property: light.intensity; from:1; to: 0; repeat: indefinite; dur: 500; easing: linear;loop: true; dir:alternate"
+                            castShadow="true"></a-light>
+                     <a-light type="point" color="#00FF00" intensity="0" distance="10" position="-5 2 1.5"
+                            animation="property: light.intensity; from:0; to: 1; repeat: indefinite; dur: 500; easing: linear;loop: true; dir:alternate"
+                            castShadow="true"></a-light>
+
+                     <!--Neon light on TV | 4 corner-->
+
+                     <a-entity light="type: point;
+                             intensity: 0.8;
+                             distance: 7;
+                             castShadow: true;
+                             
+                             color:#FFEB3B" position="5.6 2.8 -3" animation="property: light.intensity;
+                                 from:2; to:0; loop: true; dir:alternate;
+                                 dur:200"
+                            animation__color="property: material.color; from:#FFEB3B; to:#00AA00; dur:3000; loop:true">
+                     </a-entity>
+                     <a-entity light="type: point;
+                             intensity: 0.8;
+                             distance: 7;
+                             castShadow: true;
+                             
+                             color:#FFEB3B" position="-5.6 2.8 -3" animation="property: light.intensity;
+                                 from:2; to:0; loop: true; dir:alternate;
+                                 dur:200"
+                            animation__color="property: material.color; from:#FFEB3B; to:#00AA00; dur:3000; loop:true">
+                     </a-entity>
+                     <a-entity light="type: point;
+                             intensity: 0.8;
+                             distance: 7;
+                             castShadow: true;
+                             
+                             color:#0000FF" position="-5.6 2.8 7" animation="property: light.intensity;
+                                 from:2; to:0; loop: true; dir:alternate;
+                                 dur:200"
+                            animation__color="property: material.color; from:#0000FF; to:#00AA00; dur:3000; loop:true">
+                     </a-entity>
+                     <a-entity light="type: point;
+                             intensity: 0.8;
+                             distance: 7;
+                             castShadow: true;
+                             
+                             color:#FF0000" position="5.6 2.8 7" animation="property: light.intensity;
+                                 from:1; to:0; loop: true; dir:alternate;
+                                 dur:200"
+                            animation__color="property: material.color; from:#FF0000; to:#FFEB3B; dur:3000; loop:true">
+                     </a-entity>
+
+                     <!--spot light with motion-->
+
+                     <a-entity rotation="0 0 0" animation="property: rotation; to: 0 360 0; loop: true; dur: 10000">
+                            <a-box id="my" color="#FFEB3B" scale="0.01 0.01 0.01" position="-1 1 3" shadow="cast:true"
+                                   animation="property: position; to: 1 1 -2; repeat: indefinite; dir: alternate; dur: 800; loop:true">
+                            </a-box>
+                     </a-entity>
+
+                     <a-light type="spot" target="#my" color="#0000AA" angle="10" position="0 3 1" castShadow="true">
+                     </a-light>
+
+                     <a-entity rotation="0 0 0" animation="property: rotation; to: 0 360 0; loop: true; dur: 10000">
+                            <a-box id="my1" color="#00AA00" scale="0.01 0.01 0.01" position="1 1 3" shadow="cast:true"
+                                   animation="property: position; to: -1 1 2; repeat: indefinite; dir: alternate; dur: 800; loop:true">
+                            </a-box>
+                     </a-entity>
+
+                     <a-light type="spot" target="#my1" color="#FF00FF" angle="10" position="0 3 1" castShadow="true" i>
+                     </a-light>
+
+                     <a-entity id="ball1" obj-model="obj: #disco-ball-o; mtl: #disco-ball-m" position="6 0.8 0"
+                            scale="0.01 0.01 0.01"
+                            animation="property: position; easing: easeInOutQuad; dir: alternate; dur: 1000; to: 0 -0.10 -5; loop: true">
+                     </a-entity>
+
+                     <a-light type="spot" target="#ball1" color="#FF0000" angle="10" position="0 3 1" castShadow="true"
+                            i>
+                     </a-light>
+
+
+
+                     <!--light on 3 frames of right side wall-->
+                     <a-light type="point" color="#AA00AA" intensity="2" distance="3" position="-7.49 1.5 0.5">
+                     </a-light>
+
+
+              </a-box>
+
+       </a-scene>
+</body>
+
+</html>

@@ -1,0 +1,993 @@
+<!Doctype html>
+<html>
+    <head>
+        <title>WELCOME! TO FINE DINE - in your one and only VR DJ Party</title>
+        <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+        <!--<script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>-->
+        <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
+
+        <!-- for songs -->
+        <script>
+            var context
+            window.onload = function() {
+              context = new AudioContext();
+            }
+    
+            AFRAME.registerComponent('box-sound', {
+                schema: {
+                    sound_id: {type: 'string'},
+                    msound_id: {type: 'string'}
+                },
+                init: function () {
+                    let sound_id = this.data.sound_id
+                    let lastIndex = -1;
+                    let sounds = []
+                    if(this.data.msound_id){
+                        sounds = this.data.msound_id.split(',').map(sound_id => sound_id.trim())
+                    }
+                    this.el.addEventListener('mouseenter', function (evt) {
+                        context.resume().then(() => {
+                            console.log('Playback resumed successfully');
+                            if(sounds.length){
+                                lastIndex = (lastIndex + 1) % sounds.length
+                                sound_id = sounds[lastIndex]	
+                            }
+                            this.setAttribute('sound', 'src', sound_id);
+                            this.setAttribute('sound', 'autoplay', 'true');
+                        });
+                    });
+                }
+            });
+        </script>
+
+    </head>
+    <body>
+        <a-scene  cursor="rayOrigin: mouse">
+
+            <!-- all used models/images are assets here -->
+            <a-assets> 
+                <!-- sky -->
+                <img id= "sky"  src="./dinning_assets/sky/night_sky_dark.jpg" >
+                <img id= "dine"  src="./dinning_assets/wall/FINEDINE.png" >
+
+                <!-- floor -->
+                <img id="floor1" src= "./dinning_assets/floor/marble-blue.jpg">
+                <img id="floor1-NRM" src= "./dinning_assets/floor/Marble_White.tif">
+                
+                <!-- avatar images -->
+                <img id="AK" src= "./dinning_assets/avtar/AK.png">
+                <img id="DK" src= "./dinning_assets/avtar/DK.png">
+                <img id="RJ" src= "./dinning_assets/avtar/RJ.png">
+                <img id="RK" src= "./dinning_assets/avtar/RK.png">
+                <img id="KP" src= "./dinning_assets/avtar/KP.png">
+                <img id="waiter" src= "./dinning_assets/avtar/waiter.jpg">
+        
+                <!-- door and plants -->
+                <a-asset-item id="door" src= "./dinning_assets/door/scene.gltf"></a-asset-item>
+                <a-asset-item id="plant1" src= "./dinning_assets/indoorflower/scene.gltf"></a-asset-item>
+                <a-asset-item id="plant2" src= "./dinning_assets/plant/scene.gltf"></a-asset-item>
+                <a-asset-item id="plant3" src= "./dinning_assets/pottery/scene.gltf"></a-asset-item>
+                <a-asset-item id="plant4" src= "./dinning_assets/simple_green_plants/scene.gltf"></a-asset-item>
+
+                <!-- wall decor-->
+                <img id="wall-back" src= "./dinning_assets/wall/jean-philippe.jpg">
+                <img id="wall-front2" src="./dinning_assets/wall/car-hop.png">
+                <img id="wall-heart" src= "./dinning_assets/wall/jon-tyson.jpg">
+                <img id="wall-child" src= "./dinning_assets/wall/canva2.png">
+                <img id="wall-stones" src= "./dinning_assets/wall/stones.jpg">
+                <img id="wall-modern-art" src= "./dinning_assets/wall/ryunosuke.jpg" >
+                <img id="wall-right" src= "./dinning_assets/wall/wall-right.png">
+
+                <!-- tables and chairs -->
+                <a-asset-item id="table2" src= "./dinning_assets/dining_table/scene.gltf"></a-asset-item>
+
+                <!-- switches and lights or electricals-->
+                <a-asset-item id="socket" src= "./dinning_assets/socket/scene.gltf"></a-asset-item>
+                <a-asset-item id="switch" src= "./dinning_assets/wall_outlets_and_switches/scene.gltf"></a-asset-item>
+                <a-asset-item id="r-lantern" src= "./dinning_assets/red_lantern/scene.gltf"></a-asset-item>
+                <a-asset-item id="m-redstone" src= "./dinning_assets/minecraft_redstone_lamp/scene.gltf"></a-asset-item>
+                <a-asset-item id="light" src= "./dinning_assets/light_fixture/scene.gltf"></a-asset-item>
+                <a-asset-item id="w-lantern" src= "./dinning_assets/lantern_w/scene.gltf"></a-asset-item>
+                <a-asset-item id="lantern" src= "./dinning_assets/lantern/scene.gltf"></a-asset-item>
+                <a-asset-item id="fluorescent" src= "./dinning_assets/fluorescent_ceiling_light01/scene.gltf"></a-asset-item>
+                
+            
+                <!-- food items and related-->
+                
+                <a-asset-item id="round-table" src= "./dinning_assets/clubhouse_table/scene.gltf"></a-asset-item>
+                <a-asset-item id="McD" src= "./dinning_assets/mcdonalds/scene.gltf"></a-asset-item>
+                <a-asset-item id="main_food" src="./dinning_assets/main_food/model.gltf"></a-asset-item>
+                <a-asset-item id="burger" src= "./dinning_assets/burguer_and_fries_pepsi_can/scene.gltf"></a-asset-item>
+                
+                <a-asset-item id="food-table" src= "./dinning_assets/food_table/scene.gltf"></a-asset-item>
+                <a-asset-item id="bread" src= "./dinning_assets/bread_in_basket/scene.gltf"></a-asset-item>
+                <a-asset-item id="desert" src= "./dinning_assets/dessert_platter/scene.gltf"></a-asset-item>
+                
+                <a-asset-item id="udon" src= "./dinning_assets/udon_meal/scene.gltf"></a-asset-item>
+                <a-asset-item id="pizza" src= "./dinning_assets/pizza/scene.gltf"></a-asset-item>
+                <a-asset-item id="soda" src= "./dinning_assets/hexaberry_soda_cans/scene.gltf"></a-asset-item>
+                <a-asset-item id="boba-tea" src= "./dinning_assets/boba_tea_cup/scene.gltf"></a-asset-item>
+                <a-asset-item id="c-burger" src= "./dinning_assets/cheese_burger/scene.gltf"></a-asset-item>
+               
+                <a-asset-item id="tea" src= "./dinning_assets/tea_cup/scene.gltf"></a-asset-item>
+                
+                <a-asset-item id="glass-ice" src= "./dinning_assets/glass_and_ice/scene.gltf"></a-asset-item>
+                <a-asset-item id="snack" src= "./dinning_assets/tea_room_snack/scene.gltf"></a-asset-item>
+                    
+                <a-asset-item id="kettle1" src= "./dinning_assets/kettle_lowpoly/scene.gltf"></a-asset-item>
+                <a-asset-item id="kettle2" src= "./dinning_assets/vintage_style_kettle/scene.gltf"></a-asset-item>
+
+                <!-- audio -->
+                <audio id="sound" src="./dinning_assets/song/running-away.mp3" preload="auto"></audio>
+                <audio id="ak-sound" src="./dinning_assets/song/ak-sound.mpeg" preload="auto"></audio>
+                <audio id="kp-sound" src="./dinning_assets/song/kp.ogg" preload="auto"></audio>
+           
+            </a-assets>
+
+            <!-- locomotion and camera -->
+            <a-entity position="0 -1.7 -12"  movement-controls="speed: 0.15" rotation="-3 0 0">		
+                <a-camera id="cam" 
+                      wasd-controls="acceleration: 20;
+                           easing: 1000" >
+                </a-camera>
+            </a-entity>
+
+            <!-- outside environment -->
+            <a-sky src = #sky> </a-sky>
+
+            <!--Loading a single sound by using box-sound and using sound_id; -->
+            <a-box box-sound="sound_id: #sound" sound="loop:true;volume:0.3" position="-0.7 0 -15" color="#fCC3D9" width="5" height="5" depth="0.1"  visible="false" >
+            </a-box >
+    
+            <!--Loading multiple sounds by using box-sound and using msound_id; Seperate sound IDs using commas-->
+            <!--a-box box-sound="msound_id: #sound,#cackle3" sound="loop:true;volume:1" position= "-0.06 -1 -14" color="#fCC3D9" width="0.1" height="0.1" depth="0" visible="false">
+            </a-box -->
+
+            <a-entity gltf-model="#round-table" position="0 -3.5 -22.5" scale= "4.5 4.5 4.5"  rotation="-2 0 0"> </a-entity>
+            <a-entity gltf-model=#main_food scale="1.2 1.2 1" rotation="-7 0 9" position="-0.2 -3.25 -24">
+            </a-entity>
+
+
+            <!-- Main dining room-->
+            <a-box 
+                color = "yellow"
+                
+                position="0 0 -20" height ="8" width ="30" depth="10" 
+                side = "double"
+                scale = "1 1 1.8" >
+
+                <!-- light in hemisphere mode -->
+                <a-entity light="type: hemisphere; color: red; groundColor: #3C3; intensity: 0.8; rotation: 90 0 0;"></a-entity>
+
+                <!-- door -->
+                <a-entity 
+                    gltf-model= #door 
+                    position = "0 -3.7 4.7"
+                    scale = "1.4 1.8 1.8"
+                    rotation= "0 90 0"
+                    onclick="window.location='/bar/bar.html'" >
+                </a-entity>
+                
+                
+              <!-- floor -->
+                <a-plane 
+                    src = #floor1
+                    position = "0 -3.8 0" 
+                    repeat = "5 5"
+                    height = "10" width = "30" 
+                    rotation= "-90 0"
+                    normal-map= #floor1-NRM
+                    normal-texture-repeat = "6 6"
+                    scale = "1 1"
+                    side="double" 
+                    static-body >
+                </a-plane> 
+
+              <!-- wall decor-->
+               <!-- back wall-->
+                <a-plane 
+                    src = #wall-back
+                    position = "0 0 4.87" 
+                    repeat = "3 2"
+                    height = "7.9" width = "30" 
+                    rotation= "0 -180"
+                    scale = "1 1"
+                    side="double" >
+
+                    <a-entity 
+                        gltf-model= #switch 
+                        position = "12 0 -0.33" 
+                        scale = "0.028 0.028 0.028"
+                        rotation= "0 180 0" >
+                    </a-entity>
+                    <a-entity 
+                        gltf-model= #switch 
+                        position = "-10 0 -0.33"  
+                        scale = "0.028 0.028 0.028"
+                        rotation= "0 180 0" >
+                    </a-entity>
+                    <a-entity 
+                        gltf-model= #fluorescent 
+                        position = "6 3.7 0.2" 
+                        scale = "0.03 0.01 0.01"
+                        rotation= "0 0 0" >
+                        <a-entity light =   "type: point ;
+                                        intensity: 10;
+                                        distance: 4;
+                                        castShadow:true " 
+                            position= "0 0 0" >                
+                        </a-entity>
+
+                    </a-entity>
+                    <a-entity 
+                        gltf-model= #fluorescent 
+                        position = "-5 3.7 0.2" 
+                        scale = "0.03 0.01 0.01"
+                        rotation= "0 180 0" >
+                        <a-entity light =   "type: point ;
+                                        intensity: 10;
+                                        distance: 4;
+                                        castShadow:true " 
+                            position= "0 0 0" >                
+                        </a-entity>
+                    </a-entity>
+                </a-plane> 
+
+               <!-- front wall-->
+                <a-plane 
+                    src = #wall-front2 
+                    position = "0 0 -4.94" 
+                    height = "5.5" width = "2" 
+                    rotation= "0 0"
+                    scale = "1 1"
+                    side="double" 
+                    static-body 
+                    opacity="0.97" >
+
+                    <!-- focus light on marilyn monroe -->
+                    <a-light type="spot"  rotation= "0 0 0" color="white" angle="50" position="0 0 3" intensity= "0.7" castShadow="true"></a-light>
+
+                    <a-plane dine
+                        id="f-dine"
+                        src = #dine
+                        position = "0 3.2 0"
+                        height = "1" width = "3" 
+                        rotation= "0 0"
+                        scale = "2 1"
+                        side="double" >
+                    </a-plane> 
+
+                    <a-plane 
+                        src = #wall-heart
+                        position = "-7 0 0" 
+                        height = "8" width = "8" 
+                        rotation= "0 0"
+                        scale = "1 1"
+                        side="double" >
+                        <a-entity 
+                            gltf-model= #socket
+                            position = "-6.2 0 0.7"
+                            scale ="0.04 0.04 0.04"
+                            rotation= "0 0 0" >
+                        </a-entity>
+                    </a-plane>
+
+                    <a-plane 
+                        src = #wall-heart
+                        position = "7 0 0"
+                        height = "8" width = "8" 
+                        rotation= "0 0"
+                        scale = "1 1"
+                        side="double" >
+                        <a-entity 
+                            gltf-model= #socket
+                            position = "4.5 0 0.6"
+                            scale = "0.04 0.04 0.04"
+                            rotation= "0 0 0" >
+                        </a-entity>
+                    </a-plane> 
+
+                </a-plane> 
+
+               <!-- left wall-->
+                <a-plane 
+                    src = #wall-child
+                    position = "-14.85 0 0"
+                    height = "6" width = "2.5" 
+                    rotation= "0 90"
+                    scale = "1.1 1"
+                    side="double" >
+
+                    <a-plane 
+                        src = #wall-stones
+                        position = "2.9 0 -0.1"
+                        height = "7" width = "3" 
+                        rotation= "0 0"
+                        scale = "1 1"
+                        side="double"  >
+                    </a-plane> 
+
+                    <a-plane 
+                        src = #wall-stones
+                        position = "-2.8 0 -0.1"
+                        height = "7" width = "3" 
+                        rotation= "0 0"
+                        scale = "1 1"
+                        side="double"  >
+                    </a-plane> 
+
+                    <a-entity 
+                        gltf-model= #light
+                        position = "-2.8 3.8 0.8" 
+                        scale = "0.05 0.05 0.05"
+                        rotation= "0 0 0" >
+                        <!-- point light-->
+                        <a-entity light =   "type: point ;
+                                        intensity: 2;
+                                        distance: 7;
+                                        castShadow:true " 
+                            position= "0 0 2" >                
+                        </a-entity>
+                    </a-entity>
+
+                    <a-entity 
+                        gltf-model= #light
+                        position = "2.8 3.8 0.8" 
+                        scale = "0.05 0.05 0.05"
+                        rotation= "0 0 0" >
+
+                        <!-- point light-->
+                        <a-entity light =   "type: point ;
+                                        intensity: 2;
+                                        distance: 7;
+                                        castShadow:true " 
+                                   position= "0 0 2" >                
+                        </a-entity>
+                    </a-entity>
+
+                </a-plane>
+
+               <!-- right wall-->
+                <a-plane 
+                    src = #wall-modern-art
+                    position = "14.8 0 -1.7"
+                    height = "6.4" width = "3.5" 
+                    rotation= "0 -90"
+                    scale = "1 1"
+                    side="double" 
+                    opacity = "0.95" >
+
+                    <!-- point light-->
+                    <a-entity light =   "type: point ;
+                                    intensity: 1.8;
+                                    distance: 7;
+                                    castShadow:true " 
+                        position= "0 0 2" 
+                        >                
+                    </a-entity>
+
+                    <a-plane 
+                        src = #wall-right
+                        position = "4 0 0"
+                        height = "6.4" width = "3.2" 
+                        rotation= "0 0"
+                        scale = "1 1"
+                        side="double" 
+                         >
+                        <a-entity light =   "type: point ;
+                                intensity: 1.8;
+                                distance: 7;
+                                castShadow:true " 
+                                position= "0 0 2" 
+                                > 
+                        </a-entity>
+                    </a-plane> 
+
+                    <a-entity 
+                        gltf-model= #light
+                        position = "0.2 3.8 0.8" 
+                        scale = "0.05 0.05 0.05"
+                        rotation= "0 0 0" >
+                    </a-entity>
+                    <a-entity 
+                        gltf-model= #light
+                        position = "4 3.8 0.8" 
+                        scale = "0.05 0.05 0.05"
+                        rotation= "0 0 0" >
+                    </a-entity>
+                </a-plane>  
+
+              <!-- redstone lantern -->
+                <a-entity 
+                    gltf-model= #m-redstone 
+                    position = "0 2.5 0"
+                    scale = "0.03 0.03 0.03"
+                    rotation= "-5 28 0" 
+                    animation="property: rotation; to: 0 360 0; repeat: indefinite; dir: alternate; dur: 4000; loop:true"
+                    >
+                    <a-entity light =   "type: point ; 
+                                color:white ; 
+                                intensity: 2; 
+                                distance: 3; 
+                                castShadow:true; " 
+                                position= "0 -10 -1" > 
+                    </a-entity>
+                    <a-entity light =   "type: point ; 
+                                color:red ; 
+                                angle:50;
+                                intensity: 5; 
+                                distance: 2; 
+                                castShadow:true; " 
+                                position= "8 -5 10" > 
+                    </a-entity>
+      
+                    <a-light type="spot"  rotation= "0 0 0" color="white" angle="5" position="3 2 5.5" intensity= "2" castShadow="true"></a-light>
+                    <a-light type="spot"  rotation= "-90 0 0" color="blue" angle="5" position="-3 1 13" intensity= "2" castShadow="true"></a-light>
+                    
+                    <a-light type="spot" rotation ="90 0 0" color="#B63737" angle="2" position="0 3 1" castShadow="true" i>
+                    </a-light>
+                    <a-light type="spot" rotation ="120 -90 0" color="#FAEC2E" angle="2" position="-7 -3 0" castShadow="true" i>
+                    </a-light>
+                    <a-light type="spot" rotation ="180 180 0" color="magenta" angle="2" position="7 0 3" castShadow="true" i>
+                    </a-light>
+                    <a-light type="spot" rotation ="150 90 0" color="#36BDC1" angle="2" position="12 5 -3" castShadow="true" i>
+                    </a-light>
+                    <a-light type="spot" rotation ="45 90 0" color="#B63737" angle="2" position="2 -8 2" castShadow="true" i>
+                    </a-light>
+
+
+                    <a-light type="spot"  rotation= "-50 -60 20" color="blue" angle="7" position="-7 0 1" intensity= "2" castShadow="true"></a-light>
+                    <a-light type="spot"  rotation= "-30 0 0" color="blue" angle="4" position="-10 1 4" intensity= "2" castShadow="true"></a-light>
+                    
+                    <a-light type="spot" rotation ="-90 40 70" color="#3C3" angle="2" position="1 4 1" castShadow="true" i>
+                    </a-light>
+                    <a-light type="spot" rotation ="-30 -90 0" color="yellow" angle="2" position="6 -4 0" castShadow="true" i>
+                    </a-light>
+                    <a-light type="spot" rotation ="10 50 0" color="red" angle="2" position="9 0 3" castShadow="true" i>
+                    </a-light>
+                    <a-light type="spot" rotation ="100 -90 0" color="orange" angle="2" position="0 3 -3" castShadow="true" i>
+                    </a-light>
+                    <a-light type="spot" rotation ="0 -90 40" color="blue" angle="2" position="4 3 -1" castShadow="true" i>
+                    </a-light>
+                    
+
+                    <a-light type="spot"  rotation= "-60 10 20" color="purple" angle="3" position="-10 0 8" intensity= "2" castShadow="true"></a-light>
+                    <a-light type="spot"  rotation= "-30 20 60" color="magenta" angle="4" position="0 0 0" intensity= "2" castShadow="true"></a-light>
+                    
+                    <a-light type="spot" rotation ="-90 -130 70" color="#3C3" angle="2" position="3 0 4" castShadow="true" i>
+                    </a-light>
+                    <a-light type="spot" rotation ="-30 200 0" color="red" angle="2" position="8 -2 0" castShadow="true" i>
+                    </a-light>
+                    <a-light type="spot" rotation ="10 300 10" color="yellow" angle="2" position="1.5 -3 4" castShadow="true" i>
+                    </a-light>
+                    <a-light type="spot" rotation ="120 -80 0" color="green" angle="2" position="-3 4 -3" castShadow="true" i>
+                    </a-light>
+                    <a-light type="spot" rotation ="10 -70 40" color="blue" angle="2" position="-8 3 -1" castShadow="true" i>
+                    </a-light>
+
+                </a-entity>
+
+              <!-- mid-lights -->
+                <a-entity 
+                        gltf-model= #light
+                        position = "-6.5 3.88 0"  
+                        scale = "0.05 0.05 0.05"
+                        rotation= "10 0 10" >
+
+                        <a-entity light =   "type: point ;
+                                intensity: 2;
+                                distance: 5;
+                                castShadow:true " 
+                                position= "0 -7 0" 
+                                >
+                        </a-entity>
+                </a-entity>
+                    
+                <a-entity 
+                        gltf-model= #light
+                        position = "6.5 3.88 0" 
+                        scale = "0.05 0.05 0.05"
+                        rotation= "10 0 -10" >
+
+                        <a-entity light =   "type: point ;
+                                intensity: 2;
+                                distance: 5;
+                                castShadow:true " 
+                                position= "0 -7 0" 
+                                > 
+                        </a-entity>
+                </a-entity>
+
+              <!-- corner lamps -->
+                <a-entity 
+                    gltf-model= #r-lantern
+                    position = "13 1.7 -3.5"
+                    scale = "2 2 2"
+                    rotation= "0 0 0" >
+
+                    <a-entity light =   "type: point ;
+                                color : #FF00FF ;
+                                intensity: 2.5;
+                                distance: 2;
+                                 " 
+                                position= "0.2 0.2 -0.2"
+                                > 
+                    </a-entity>
+                </a-entity>
+                <a-entity 
+                    gltf-model= #w-lantern 
+                    position = "12.5 1.2 -4"
+                    scale = "1.8 1.7 1.8"
+                    rotation= "0 0 0" >
+
+                    <a-entity light =   "type: point ;
+                                color : white ;
+                                intensity: 2.5;
+                                distance: 1.2;
+                                castShadow:true " 
+                                position= "0.2 0 -0.2"
+                                > 
+                    </a-entity>
+                </a-entity>
+                <a-entity 
+                    gltf-model= #lantern
+                    position = "13.5 0.5 -3.7"
+                    scale = "1.8 1.8 1.8"
+                    rotation= "0 0 0" >
+
+                    <a-entity light =   "type: point ;
+                                color : #FF00FF ;
+                                intensity: 2.5;
+                                distance: 1.8;
+                                castShadow:true " 
+                                position= "0.2 0 -0.2"
+                                > 
+                    </a-entity>
+                </a-entity>
+
+                 <!-- lookout avatars-->
+                <a-image id="dk" src="#DK" scale="4 4 4" height="1.3" width="0.5" rotation="0 0.8 0"   position="3 -1.4 -4" look-at=#cam position="0 1.5 0" height="0.75" look-at=#cam>
+                </a-image>
+                <a-image id="rj" src="#RJ" scale="4 4 4" height="1.1" width="0.4"  rotation= "0 30 0" position="-6 -1.5 -2" look-at=#cam position="0 1.5 0" height="0.75" look-at=#cam>
+                </a-image>
+                <a-image src="#AK" scale="4 4 4" height="1" width="0.4"  rotation="0 20 0" position="-5 -1.7 0.4"  look-at=#cam position="0 1.5 0" height="0.75" look-at=#cam
+                          box-sound="sound_id: #ak-sound" sound="loop:false;volume:10" >
+                </a-image>
+                <!-- <a-image id="rk" src="#RK" scale="4 4 4" height="1.2" width="0.45"  rotation= "0 20 7"   position="-6 -1 1.6" look-at=#cam position="0 1.5 0" height="0.75" look-at=#cam>
+                </a-image> -->
+                <a-image id="kp" src="#KP" scale="4 4 4" height="1.2" width="0.25" rotation= "0 -28 0" position="6.5 -1.87 1"  look-at=#cam position="0 1.5 0" height="0.75" look-at=#cam
+                         box-sound="sound_id: #kp-sound" sound="loop:false;volume:10">
+                </a-image>
+                <!-- a-image src="#waiter" scale="4 4 4" height="1" width="0.4"  rotation= "0 0 0" position="-2 -2.4 -3" opacity="0.9" look-at=#cam position="0 1.5 0" height="0.75" look-at=#cam>
+                </a-image -->
+
+                <!-- plants in a corner -->
+                <a-entity 
+                    gltf-model= #plant1 
+                    position = "-12.5 -3.5 1.7" 
+                    scale = "0.4 0.5 0.4"
+                    rotation= "0 0 0" >
+                        
+                    <a-entity 
+                            gltf-model= #plant1 
+                            position = "-2 0 7" 
+                            scale = "1 1 1"
+                            rotation= "0 0 0" >
+                    </a-entity>
+                    <a-entity 
+                            gltf-model= #plant2 
+                            position = "2 0 3" 
+                            scale = "0.2 0.2 0.2"
+                            rotation= "0 60 0" >
+                    </a-entity>
+                    <a-entity 
+                            gltf-model= #plant3 
+                            position = "-1 0 4.5"
+                            scale = "1 1 1"
+                            rotation= "0 0 0" >
+                    </a-entity>
+                    <a-entity 
+                            gltf-model= #plant4 
+                            position = "0 0 7" 
+                            scale = "0.003 0.003 0.003"
+                            rotation= "0 45 0" >
+                    </a-entity>
+                </a-entity>
+
+                <a-entity 
+                    gltf-model= #plant2 
+                    position = "-10 -3.5 3" 
+                    scale = "0.08 0.08 0.05"
+                    rotation= "0 0 0" >
+                </a-entity>
+
+                <a-entity 
+                    gltf-model= #plant3 
+                    position = "-11 -3.5 4" 
+                    scale = "0.5 0.5 0.5"
+                    rotation= "0 0 0" >
+                </a-entity>
+
+                <a-entity 
+                    gltf-model= #plant4 
+                    position = "-10 -3.5 4"
+                    scale = "0.0007 0.0015 0.0007"
+                    rotation= "0 0 0" >
+                </a-entity>
+
+                <a-entity 
+                    gltf-model= #plant4 
+                    position = "-10.5 -3.5 2.5" 
+                    scale = "0.0008 0.0020 0.0009"
+                    rotation= "0 -90 0" >
+                </a-entity >
+
+                <!-- plants on right side-->
+                <a-entity 
+                    gltf-model= #plant1 
+                    position = "12.5 -3.5 0.3" 
+                    scale = "0.4 0.5 0.4"
+                    rotation= "0 0 0" >
+                        
+                    <a-entity 
+                            gltf-model= #plant1 
+                            position = "-2 0 10" 
+                            scale = "1 1 1"
+                            rotation= "0 0 0" >
+                    </a-entity>
+                    <a-entity 
+                            gltf-model= #plant2 
+                            position = "2 0 2" 
+                            scale = "0.2 0.2 0.2"
+                            rotation= "0 60 0" >
+                    </a-entity>
+                    <a-entity 
+                            gltf-model= #plant3 
+                            position = "-1 0 5"
+                            scale = "1 1 1"
+                            rotation= "0 0 0" >
+                    </a-entity>
+                    <a-entity 
+                            gltf-model= #plant4 
+                            position = "0 0 8" 
+                            scale = "0.003 0.003 0.003"
+                            rotation= "0 45 0" >
+                    </a-entity>
+                </a-entity>
+
+
+              <!-- items in dining room -->
+
+               <!-- table with food-->
+               <a-entity gltf-model= "#table2" 
+                    position = "-63.2 -37.5 0"
+                    rotation = "0 90 0"
+                    scale= "1 1.3 1.8" >
+
+                    <a-entity gltf-model= "#pizza" 
+                        position = "0 27 29"
+                        scale= "0.05 0.054 0.05" >
+                    </a-entity>
+
+                    <a-entity gltf-model= "#pizza" 
+                        position = "0.6 26.9 29"
+                        scale= "0.03 0.054 0.03" >
+                    </a-entity>
+
+
+                     <a-entity gltf-model= "#pizza" 
+                        position = "-0.641 26.9 29.05"
+                        scale= "0.03 0.054 0.03" >
+                    </a-entity>
+
+                    <a-entity gltf-model= "#glass-ice" 
+                        position = "-0.3 27 29"
+                        scale= "0.1 0.1 0.1" 
+                        rotation= "0 0 0">
+                    </a-entity>
+                     <a-entity gltf-model= "#glass-ice" 
+                        position = "-0.3 27 29.4"
+                        scale= "0.1 0.1 0.1" 
+                        rotation= "0 0 0">
+                    </a-entity>
+
+                    <a-entity gltf-model= "#c-burger" 
+                        position = "0 27 29.5"
+                        >
+                    </a-entity>
+
+                    <a-entity gltf-model= "#c-burger" 
+                        position = "-0.3 27 28.3"
+                        >
+                    </a-entity>
+                    <a-entity gltf-model= "#c-burger" 
+                        position = "0.3 27 28.4"
+                        >
+                    </a-entity>
+
+                    <a-entity gltf-model= "#soda" 
+                        position = "-0.3 27 28.65"
+                        scale= "0.002 0.005 0.002" 
+                        rotation = "0 180 0">
+                    </a-entity >
+
+                </a-entity>
+
+                 <a-entity gltf-model= "#table2" 
+                    position = "-61.8 -37.5 -3"
+                    rotation = "0 90 0"
+                    scale= "1 1.3 1.8" >
+
+                    <a-entity gltf-model= "#pizza" 
+                        position = "0.6 26.9 29"
+                        scale= "0.03 0.054 0.03" >
+                    </a-entity>
+
+                     <a-entity gltf-model= "#pizza" 
+                        position = "0 26.9 29.47"
+                        scale= "0.03 0.054 0.03" >
+                    </a-entity>
+
+                     <a-entity gltf-model= "#pizza" 
+                        position = "-0.641 26.9 29.05"
+                        scale= "0.03 0.054 0.03" >
+                    </a-entity>
+                    <a-entity gltf-model= "#tea" 
+                        position = "-0.2 27 29"
+                        scale= "0.07 0.07 0.07" 
+                        rotation= "0 0 0">
+                    </a-entity>
+
+
+                    <a-entity gltf-model= "#c-burger" 
+                        position = "0 27 29.5"
+                        >
+                    </a-entity>
+
+                    <a-entity gltf-model= "#c-burger" 
+                        position = "-0.3 27 28.3"
+                        >
+                    </a-entity>
+                    <a-entity gltf-model= "#c-burger" 
+                        position = "0.3 27 28.4"
+                        >
+                    </a-entity>
+
+                    <a-entity gltf-model= "#soda" 
+                        position = "-0.3 27 28.65"
+                        scale= "0.002 0.005 0.002" 
+                        rotation = "0 180 0">
+                    </a-entity >
+
+                </a-entity>
+
+                <a-entity gltf-model= "#table2" 
+                    position = "-42 -37.5 1.5"
+                    rotation = "0 90 0"
+                    scale= "1 1.3 1.8" >
+
+                    <a-entity gltf-model= "#pizza" 
+                        position = "0.6 26.9 29"
+                        scale= "0.03 0.054 0.03" >
+                    </a-entity>
+
+                     <a-entity gltf-model= "#pizza" 
+                        position = "0 26.9 29.47"
+                        scale= "0.03 0.054 0.03" >
+                    </a-entity>
+
+                     <a-entity gltf-model= "#pizza" 
+                        position = "-0.641 26.9 29.05"
+                        scale= "0.03 0.054 0.03" >
+                    </a-entity>
+                    <a-entity gltf-model= "#tea" 
+                        position = "-0.2 27 29"
+                        scale= "0.07 0.07 0.07" 
+                        rotation= "0 0 0">
+                    </a-entity>
+
+                    <a-entity gltf-model= "#tea" 
+                        position = "0 27 28.655"
+                        scale= "0.07 0.07 0.07" 
+                        rotation= "0 0 0">
+                    </a-entity>
+
+                    <a-entity gltf-model= "#c-burger" 
+                        position = "-0.3 27 28.3"
+                        >
+                    </a-entity>
+                    <a-entity gltf-model= "#c-burger" 
+                        position = "0.3 27 28.4"
+                        >
+                    </a-entity>
+
+                    <a-entity gltf-model= "#soda" 
+                        position = "-0.3 27 28.65"
+                        scale= "0.002 0.005 0.002" 
+                        rotation = "0 180 0">
+                    </a-entity >
+
+                </a-entity>
+                
+                
+             <!-- food items - food-table and food on round-table -->
+
+                <a-entity gltf-model= "#burger" 
+                    position= "2.7 -1.7 -1.5"
+                    scale="0.04 0.06 0.05" 
+                    rotation="0 45 0" >                        
+                </a-entity>
+
+                <a-entity gltf-model= "#burger" 
+                    position= "-2 -1.7 -1.5"
+                    scale="0.04 0.06 0.05" 
+                    rotation="0 0 0" >                        
+                </a-entity>
+                
+                <a-entity gltf-model= "#McD" 
+                    position= "-0.7 -1.1 -0.1"
+                    scale="0.2 0.2 0.2" 
+                    rotation="0 0 0">
+                </a-entity>
+
+                <a-entity gltf-model= "#McD" 
+                    position= "1.3 -1.1 -0.3"
+                    scale="0.2 0.2 0.2"
+                    rotation="0 40 0" >
+                </a-entity>
+
+                
+               
+                <!-- food table -->
+                <a-entity gltf-model= "#food-table" 
+                    position= "8 -2.2 -2"
+                    scale= "0.02 0.01 0.006" 
+                    rotation="0 0 0" >
+
+                    <a-entity 
+                        gltf-model= "#snack" 
+                        position = "1.7 20 0" 
+                        scale = "4 4.5 4"
+                        rotation= "0 -15 0" >                             
+                    </a-entity>
+                </a-entity >
+
+                <a-entity 
+                    gltf-model= #kettle1 
+                        position = "5 -2 -3" 
+                        scale = "0.04 0.04 0.04"
+                        rotation= "0 -15 0" >                             
+                </a-entity>
+
+                <a-entity 
+                    gltf-model= #kettle2 
+                            position = "6 -2 -3"
+                            scale = "0.37 0.45 0.37"
+                            rotation= "0 10 0" >
+                </a-entity> 
+                
+                <a-entity gltf-model= "#tea" 
+                        position = "5.4 -1.9 -2.55"
+                        scale= "0.07 0.07 0.07" 
+                        rotation= "0 10 0">
+
+                        <a-entity gltf-model= "#tea" 
+                            position = "-5 0 3.7"
+                            scale= "1 1 1" 
+                            rotation= "0 -15 0" >
+                        </a-entity>
+                        <a-entity gltf-model= "#tea" 
+                            position = "-10 0 2.5"
+                            scale= "1 1 1" >
+                        </a-entity>
+                </a-entity>
+
+                <a-entity gltf-model= "#tea" 
+                    position = "5 -1.9 -2.56"
+                    scale= "0.07 0.07 0.07" 
+                    rotation= "0 0 0">
+                </a-entity>
+
+                <a-entity gltf-model= "#tea" 
+                    position = "4.7 -1.9 -2.5"
+                    scale= "0.07 0.07 0.07" 
+                    rotation= "0 0 0">
+                </a-entity>
+
+
+                <a-entity gltf-model= "#desert" 
+                        position= "6.6 -2 -2"
+                        rotation = "0 40 0"
+                        scale= "0.3 0.3 0.3"
+                        >
+                </a-entity>
+
+                <a-entity gltf-model= "#desert" 
+                    position= "7.3 -2 -2.8"
+                        rotation = "0 90 0"
+                        scale= "0.3 0.3 0.3"
+                        >
+                </a-entity>
+                <a-entity gltf-model= "#desert" 
+                        position= "8.7 -2 -2.8"
+                        rotation = "0 90 0"
+                        scale= "0.3 0.3 0.3"
+                        >
+                </a-entity>
+
+                    <a-entity gltf-model= "#bread" 
+                        position= "10 -1.5 -2.65"
+                        scale= "0.03 0.03 0.025"
+                        >
+                    </a-entity>
+                    <a-entity gltf-model= "#bread" 
+                        position= "10 -1.5 -1.4"
+                            scale= "0.03 0.03 0.025"
+                            rotation = "0 30 0"
+                            >
+                    </a-entity>
+
+
+                    <a-entity gltf-model= "#udon" 
+                        position= "5 -2 -1"
+                        rotation = "0 0 0"
+                        scale= "0.17 0.2 0.17"
+                        >
+                    </a-entity>
+                    <a-entity gltf-model= "#udon" 
+                        position= "5 -2 -1.8"
+                        rotation = "0 180 0"
+                        scale= "0.17 0.2 0.17"
+                        >
+                    </a-entity>
+
+
+                    <a-entity gltf-model= "#soda" 
+                        position= "8 -2 -1.4"
+                            rotation = "0 0 0"
+                            scale= "0.003 0.0035 0.003"
+                            >
+                    </a-entity>
+                    <a-entity gltf-model= "#soda" 
+                        position= "6 -2 -2"
+                            rotation = "0 90 0"
+                            scale=  "0.003 0.0035 0.003"
+                            >
+                    </a-entity>
+                
+
+                    <a-entity gltf-model= "#pizza" 
+                        position= "6 -2 -1.2"
+                            rotation = "0 0 0"
+                            scale= "0.07 0.1 0.07" >
+                    </a-entity>
+                    <a-entity gltf-model= "#pizza" 
+                        position= "7 -2 -1"
+                        rotation = "0 0 0"
+                        scale= "0.07 0.1 0.07"
+                        >
+                    </a-entity>
+                    <a-entity gltf-model= "#pizza" 
+                        position= "7.8 -2 -1"
+                            rotation = "0 0 0"
+                            scale= "0.07 0.1 0.07"
+                            >
+                    </a-entity>
+                    <a-entity gltf-model= "#pizza" 
+                        position= "8.5 -2 -1.2"
+                            rotation = "0 0 0"
+                            scale= "0.07 0.1 0.07" >
+                    </a-entity>
+                    <a-entity gltf-model= "#pizza" 
+                        position= "9.1 -2 -1"
+                            rotation = "0 0 0"
+                            scale= "0.07 0.1 0.07"
+                            >
+                    </a-entity >
+
+
+            </a-box>
+
+        </a-scene>
+    </body>
+</html>
