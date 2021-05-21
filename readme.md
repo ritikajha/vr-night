@@ -20,16 +20,16 @@ The project is a virtual grand-n-scary DJ party that comes along with a DJ Room,
 ## Quick glance of the party-
 
     1. Haunted House
-![Haunted House](https://github.com/ritikajha/EN455_Spring2021_CG/tree/main/Group_7/gifs/home_gif.gif?raw=true)
+![Haunted House](https://github.com/ritikajha/vr-night/tree/main/Group_7/gifs/home_gif.gif?raw=true)
 
     2. DJ Party
-![DJ Party](https://github.com/ritikajha/EN455_Spring2021_CG/tree/main/Group_7/gifs/dj_gif.gif?raw=true)
+![DJ Party](https://github.com/ritikajha/vr-night/tree/main/Group_7/gifs/dj_gif.gif?raw=true)
 
     3. Dining Room
-![Dining Room](https://github.com/ritikajha/EN455_Spring2021_CG/tree/main/Group_7/gifs/dining_gif.gif?raw=true)
+![Dining Room](https://github.com/ritikajha/vr-night/tree/main/Group_7/gifs/dining_gif.gif?raw=true)
 
     4. Bar
-![Bar](https://github.com/ritikajha/EN455_Spring2021_CG/tree/main/Group_7/gifs/bar_gif.gif?raw=true)
+![Bar](https://github.com/ritikajha/vr-night/tree/main/Group_7/gifs/bar_gif.gif?raw=true)
 
     5. Gaming Zone
-![Gaming Zone](https://github.com/ritikajha/EN455_Spring2021_CG/tree/main/Group_7/gifs/game_gif.gif?raw=true)
+![Gaming Zone](https://github.com/ritikajha/vr-night/tree/main/Group_7/gifs/game_gif.gif?raw=true)
