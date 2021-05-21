@@ -29,7 +29,7 @@ The project is a virtual grand-n-scary DJ party that comes along with a DJ Room,
 ![Dining Room](https://github.com/ritikajha/vr-night/tree/main/Group_7/gifs/dining_gif.gif?raw=true)
 
     4. Bar
-![Bar](https://github.com/ritikajha/vr-night/tree/main/Group_7/gifs/bar_gif.gif?raw=true)
+![Bar](https://github.com/ritikajha/vr-night/blob/main/gifs/bar_gif.gif?raw=true)
 
     5. Gaming Zone
 ![Gaming Zone](https://github.com/ritikajha/vr-night/tree/main/Group_7/gifs/game_gif.gif?raw=true)
