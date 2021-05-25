@@ -11,7 +11,7 @@ The project is a virtual grand-n-scary DJ party that comes along with a DJ Room,
 **To use the application**
 - Clone the [repo](repo-URL) , and setup a local server to view the code on the web browser.
 - For XAMPP - put the cloned repo in the 'htdocs' directory and use it.
-- On Visual Studio Code - download the `Live Server` extension by Ritwick Day. Open the workspace in the cloned folder and open the ... in code editor tab. Press `Go Live` to start the live server.
+- On Visual Studio Code - download the `Live Server` extension by Ritwick Day. Open the workspace in the cloned folder and open the index(/starting) page in code editor tab. Press `Go Live` to start the live server.
 
 **For Desktop mode - Once you enter in the VR mode, the cursor is locked. You can navigate using WASD controls/up-down-left-right keys**
 
