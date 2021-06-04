@@ -16,7 +16,7 @@ The project is a virtual grand-n-scary DJ party that comes along with a DJ Room,
 **For Desktop mode - Once you enter in the VR mode, the cursor is locked. You can navigate using WASD controls/up-down-left-right keys**
 
 ## Technologies used- 
-[A-Frame](https://aframe.io/) -A web framework for building virtual reality experiences. Works on Vive, Rift, desktop, mobile platforms.
+[A-Frame](https://aframe.io/) - A web framework for building virtual reality experiences. Works on Vive, Rift, desktop, mobile platforms.
 
 ## Quick glance of the party-
 
